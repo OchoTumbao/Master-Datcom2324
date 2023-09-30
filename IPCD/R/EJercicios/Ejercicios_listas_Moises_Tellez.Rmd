@@ -1,0 +1,96 @@
+---
+title: "Ejercicios Listas"
+author: "Moisés Téllez Francisco"
+date: "2023-09-26"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Ejercicios Listas
+
+1. Crea una lista llamada mi_lista que contenga los siguientes elementos: un vector numérico de 15 elementos, un vector de caracteres de 5 elementos y un vector de valores booleanos de 10 elementos todos TRUE
+
+```{r}
+ej1 <- list(seq(1,15),letters[1:5],rep(TRUE,10))
+print(ej1)
+```
+
+2. Dada la siguiente lista my_list <- list(name="Fred", wife="Mary", no.children=3, child.ages=c(4,7,9)):
+
+```{r}
+ej2 <- list(name="Fred", wife="Mary", no.children=3, child.ages=c(4,7,9))
+print(ej2)
+```
+- Imprime los atributos y los nombres de todos los componentes de la lista
+
+```{r}
+print(names(ej2))
+print(ej2)
+```
+- Devuelve el segundo componente de la lista
+```{r}
+ej2[[2]]
+```
+- Recupera el segundo elemento del cuarto componente de la lista 
+
+```{r}
+ej2[[4]][2]
+```
+- Imprime la longitud del cuarto elemento de la lista
+```{r}
+length(ej2[[4]])
+```
+- Reemplaza el cuarto elemento de la lista por un vector de 12 numeros del 1 al 12
+```{r}
+ej2[[4]] <- 1:12
+print(ej2[[4]])
+```
+- Elimina el componente wife
+```{r}
+ej2[["wife"]] <- NULL
+```
+- Añade un componente más a la lista llamado pepe
+```{r}
+ej2[[length(ej2)+1]] <- "pepe"
+names(ej2)[length(ej2)] <- "pepe"
+print(ej2)
+```
+3. Convertir un vector de 30 números postivos y negativos en una lista con [1ra componente: los 2 primeros elementos, 2da componente: los 5 siguientes pero como caracteres, 3ra componente: los elementos restantes que sean valores positivos, 4ta componente: una lista de caracteres con tu nombre y apellidos (ej: "Rocio" "Romero" "Zaliz")]
+```{r}
+ej3v <- sample(-10:20)
+ej3 <- list(ej3v[1:2], as.character(ej3v[3:8]),ej3v[ej3v>=0],list("Moises","Tellez","Francisco"))
+print(ej3)
+```
+
+- Una vez creado ponles nombre (ej: "1ro", "2do" etc)
+```{r}
+names(ej3) <- c("primero", "segundo", "tercero", "cuarto" )
+```
+- Accede al tercer elemento por su nombre
+```{r}
+ej3[["tercero"]]
+```
+- Fusiona el primer y cuarto componente en un quinto componente y borra los originales
+```{r}
+ej3[[5]] <- c(ej3[[1]],ej3[[4]])
+ej3[[1]] <- NULL
+# El cuarto es ahora el tercero porque he eliminado el primero
+ej3[[3]] <- NULL
+print(ej3)
+```
+
+4. Crea una nueva lista cuyos componentes sean las listas de los ejericios anteriores (OJO: Su longitude debería ser 3)
+ 
+```{r}
+ej4<-list(ej1,ej2,ej3)
+print(length(ej4))
+```
+5. Crea una nueva lista que concatene las listas de los tres primeros ejericios. ¿Qué longitud tiene?
+```{r}
+ej5 <-c(ej1,ej2,ej3)
+print(length(ej5))
+```
+

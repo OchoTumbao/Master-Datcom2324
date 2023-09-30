@@ -1,0 +1,51 @@
+---
+title: "Ejercicios_Factores_Moises_Tellez"
+author: "Moisés Téllez Francisco"
+date: "2023-09-26"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Ejercicios factores
+
+1. Crea un factor llamado "fact_puntuacion" que contenga puntuaciones de 1 al 5 para 100 productos. Utiliza la función summary() para obtener un resumen de la distribución de puntuaciones. ¿Qué puedes deducir del tipo de aleatoriedad usada en sample?
+```{r}
+fact_puntuacion <- factor(sample(1:5,100,replace=TRUE),levels=1:5)
+summary(fact_puntuacion)
+```
+Viendo que todos los resultados son cercanos a 20 podemos deducir que la distribución de probabilidad es uniforme
+2. Crea un factor ordenado para edades entre 0 y 100 de 100 personas. Utiliza la funcion cut para generar 3 nieveles separados. Ahora reetiqueta el factor como "joven", "adulto" o "anciano". Muestra la frecuencia de cada nivel.
+```{r}
+muestra <- sample(0:100,100,replace=T)
+niveles <- cut(muestra,3,ordered_result=TRUE)
+levels(niveles) <- c("joven","adulto","anciano")
+summary(niveles)
+```
+3. Crea un factor para el siguiente vector teniendo en cuenta que los niveles posibles son todas las letras de la "A" a la "Z":
+
+v <- c("A","I", "I", "J", "A", "Z", "X")
+
+```{r}
+v <- c("A","I", "I", "J", "A", "Z", "X")
+ej3 <- factor(v,levels=LETTERS)
+print(ej3)
+```
+
+* Modifica una de las "I" por una "F"
+```{r}
+ej3[which(ej3=="I")[1]] <- "F"
+print(ej3)
+```
+* Agrega una nueva "A" en última posición
+```{r}
+ej3[length(ej3)+1] <- "A"
+print(ej3)
+```
+* Indica las letras que aparecen en el factor ordenadas por su frecuencia, empezando con la menos frecuente
+```{r}
+sort(summary(ej3)[summary(ej3) != 0])
+```
+
