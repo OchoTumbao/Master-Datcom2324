@@ -150,4 +150,6 @@ Condiciones analogas al test U y al ANOVA y se procede de forma similar con otro
 ### Post-hoc no parametrico
 Pues igual que en los parametricos, o se usan test especificos como el test de Dunn o se usan test genericos con una penalización de alpha
 
-## Test para muestras dependientes
+## Test para muestras dependientes 
+
+Estos test los usamos cuando tengamos variables que dependan unas de otras, (salario_inicial,salario_final) Cuando estas dependencias entre columnas evidentes se muestras tenemos que adaptar los tests que hemos descrito antes
