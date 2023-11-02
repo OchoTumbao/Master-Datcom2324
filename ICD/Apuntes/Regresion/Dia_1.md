@@ -39,3 +39,17 @@ Tambien podemos calcular el error global del modelo. Pero vaya, error cuadratico
 ## Regresión lineal multiple
 
 Ahi nuestro modelo parametrico tiene mas de un regresor, el funcionamiento por ese lado es el mismo, pero hay que tener cosas en cuenta. Lo primero es que los predictores que este utilizando no tengan correlaciones fuertes. Y si tengo muchas correlaciones fuertes lo que puede pasar es que los p-valores que calculamos antes se vayan a la mierda. Y por otra parte hacer interpretaciones se complica. Pero aún así no podemos establecer causalidades. 
+
+En estos casos es necesario saber la utilidad de cada uno de los regresores. Para ello tenemos diferentes formas
+
+Primero para discernir si al menos uno de los predictores es util podemos utilizar el estadistico F
+
+Despues tenemos que saber cuales son los datos utiles. Si pudieramos cogeriamos todas las combinaciones posibles entre los atributos. Pero claro, mi loco si tienes muchas variables la cagaste pero bien porque son muchas. Hay otra opción que es la selección hacia delante y hacia atras. Estas dos formas meten un sesgo en la selección. Pero oye mira, menos da una piedra. En el enfoque hacia delante yo parto del modelo vacio (coger la media de la variable de salida). Le añado cada uno de los regresores y guardo el modelo. De forma individual. Una vez hecho eso decido el mejor modelo y añado eso al modelo, despues repito ese proceso con el nuevo modelo con una variable hasta algun criterio de parado determinado, Sea que los P valores sigan yendo bien, o que la mejora del R² sea alta. El enfoque hacia atras es el contario. Empiezo el modelo con todas las variables, busco la que tenga un peor p-valor y la quito, y así hasta algun criterio de parada, SE NOS RECOMIENDA PARA EL TRABAJO UTILIZAR EL CRITERIO HACIA ATRAS. En cuanto a los criterios de parada, hay unos cuantos. 
+
+¿Que hago si tengo variables que sean categoricas? En un regresor no pueden entrar variables categoricas. Podemos hacer movidas, por ejemplo las que son bimodales puedo hacer una variable dummy donde 1 es un valor y 0 es el otro. Esto me da un modelo que puedo ajustar y comprobar su p valor, si es muy alto podemos sacar si hay alguna diferencia estadistica o no. En caso de tener mas de dos variables puedo gnerar n variables -1, me hago un modeo con las variables que he hecho y mio los p valores. 
+
+Finalmente vamos a hablar sobre la interacción y la no linealidad entre nuestros datos. Podemos meter la no linealidad modificando o inventando variabes. Suponte que tenemos un modelo lineal inicial. Hasta ahora asumimos que no hay interacción entre variables, por ejemplo que una variable potencia a otra. Esto es lo que se conoce como interacción. Para capturar esta interacción puedo meter una nueva variable no lineal y ajustar de igual forma nuestros coeficientes. Ver si el p valor de ese nuevo termino es relevante y ver si nos mejora el R²
+
+Me puede pasar que yo meta mi termino de interacción, decida quedarmelo porque el p valor es bueno. Y que el p valor  del termino individual original no sea bueno. Si ese es el caso NO PUEDO QUITAR los terminos individuales, porque cambia el significado y no podemos explicar. Y luego porque puede afectar a la capacidad de ajuste del modelo 
+
+Otra posibilidad es que haya interacción entre terminos categoricos y numericos 
