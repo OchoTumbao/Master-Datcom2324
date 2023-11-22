@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="P1_regresion_files/libs/clipboard/clipboard.min.js"></script>
+<script src="P1_regresion_files/libs/quarto-html/tabby.min.js"></script>
+<script src="P1_regresion_files/libs/quarto-html/popper.min.js"></script>
+<script src="P1_regresion_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="P1_regresion_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="P1_regresion_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="P1_regresion_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="P1_regresion_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.3.450">
+
+  <meta name="author" content="Máster en Ciencias de Datos e Ingeniería de Computadores Minería de Datos - Preprocesamiento y clasificación">
+  <meta name="dcterms.date" content="2023-11-01">
+  <title>Regresión lineal</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="P1_regresion_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="P1_regresion_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #f8f8f2;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #f8f8f2; } /* Normal */
+    code span.al { color: #f07178; background-color: #2a0f15; font-weight: bold; } /* Alert */
+    code span.an { color: #d4d0ab; } /* Annotation */
+    code span.at { color: #00e0e0; } /* Attribute */
+    code span.bn { color: #d4d0ab; } /* BaseN */
+    code span.bu { color: #abe338; } /* BuiltIn */
+    code span.cf { color: #ffa07a; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #abe338; } /* Char */
+    code span.cn { color: #ffd700; } /* Constant */
+    code span.co { color: #f8f8f2; font-style: italic; } /* Comment */
+    code span.cv { color: #ffd700; } /* CommentVar */
+    code span.do { color: #f8f8f2; } /* Documentation */
+    code span.dt { color: #ffa07a; } /* DataType */
+    code span.dv { color: #d4d0ab; } /* DecVal */
+    code span.er { color: #f07178; text-decoration: underline; } /* Error */
+    code span.ex { color: #00e0e0; font-weight: bold; } /* Extension */
+    code span.fl { color: #d4d0ab; } /* Float */
+    code span.fu { color: #ffa07a; } /* Function */
+    code span.im { color: #abe338; } /* Import */
+    code span.in { color: #d4d0ab; } /* Information */
+    code span.kw { color: #ffa07a; font-weight: bold; } /* Keyword */
+    code span.op { color: #ffa07a; } /* Operator */
+    code span.ot { color: #00e0e0; } /* Other */
+    code span.pp { color: #dcc6e0; } /* Preprocessor */
+    code span.re { color: #00e0e0; background-color: #f8f8f2; } /* RegionMarker */
+    code span.sc { color: #abe338; } /* SpecialChar */
+    code span.ss { color: #abe338; } /* SpecialString */
+    code span.st { color: #abe338; } /* String */
+    code span.va { color: #00e0e0; } /* Variable */
+    code span.vs { color: #abe338; } /* VerbatimString */
+    code span.wa { color: #dcc6e0; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="P1_regresion_files/libs/revealjs/dist/theme/quarto.css">
+  <link href="P1_regresion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="P1_regresion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="P1_regresion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="P1_regresion_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+
+  .callout {
+    margin-top: 1em;
+    margin-bottom: 1em;  
+    border-radius: .25rem;
+  }
+
+  .callout.callout-style-simple { 
+    padding: 0em 0.5em;
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+    display: flex;
+  }
+
+  .callout.callout-style-default {
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+  }
+
+  .callout .callout-body-container {
+    flex-grow: 1;
+  }
+
+  .callout.callout-style-simple .callout-body {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-style-default .callout-body {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-titled.callout-style-simple .callout-body {
+    margin-top: 0.2em;
+  }
+
+  .callout:not(.callout-titled) .callout-body {
+      display: flex;
+  }
+
+  .callout:not(.no-icon).callout-titled.callout-style-simple .callout-content {
+    padding-left: 1.6em;
+  }
+
+  .callout.callout-titled .callout-header {
+    padding-top: 0.2em;
+    margin-bottom: -0.2em;
+  }
+
+  .callout.callout-titled .callout-title  p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+    
+  .callout.callout-titled.callout-style-simple .callout-content  p {
+    margin-top: 0;
+  }
+
+  .callout.callout-titled.callout-style-default .callout-content  p {
+    margin-top: 0.7em;
+  }
+
+  .callout.callout-style-simple div.callout-title {
+    border-bottom: none;
+    font-size: .9rem;
+    font-weight: 600;
+    opacity: 75%;
+  }
+
+  .callout.callout-style-default  div.callout-title {
+    border-bottom: none;
+    font-weight: 600;
+    opacity: 85%;
+    font-size: 0.9rem;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-default div.callout-content {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-simple .callout-icon::before {
+    height: 1rem;
+    width: 1rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+  }
+
+  .callout.callout-style-default .callout-icon::before {
+    height: 0.9rem;
+    width: 0.9rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 0.9rem 0.9rem;
+  }
+
+  .callout-title {
+    display: flex
+  }
+    
+  .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  .callout.no-icon::before {
+    display: none !important;
+  }
+
+  .callout.callout-titled .callout-body > .callout-content > :last-child {
+    margin-bottom: 0.5rem;
+  }
+
+  .callout.callout-titled .callout-icon::before {
+    margin-top: .5rem;
+    padding-right: .5rem;
+  }
+
+  .callout:not(.callout-titled) .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  /* Callout Types */
+
+  div.callout-note {
+    border-left-color: #4582ec !important;
+  }
+
+  div.callout-note .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEU0lEQVRYCcVXTWhcVRQ+586kSUMMxkyaElstCto2SIhitS5Ek8xUKV2poatCcVHtUlFQk8mbaaziwpWgglJwVaquitBOfhQXFlqlzSJpFSpIYyXNjBNiTCck7x2/8/LeNDOZxDuEkgOXe++553zfefee+/OYLOXFk3+1LLrRdiO81yNqZ6K9cG0P3MeFaMIQjXssE8Z1JzLO9ls20MBZX7oG8w9GxB0goaPrW5aNMp1yOZIa7Wv6o2ykpLtmAPs/vrG14Z+6d4jpbSKuhdcSyq9wGMPXjonwmESXrriLzFGOdDBLB8Y6MNYBu0dRokSygMA/mrun8MGFN3behm6VVAwg4WR3i6FvYK1T7MHo9BK7ydH+1uurECoouk5MPRyVSBrBHMYwVobG2aOXM07sWrn5qgB60rc6mcwIDJtQrnrEr44kmy+UO9r0u9O5/YbkS9juQckLed3DyW2XV/qWBBB3ptvI8EUY3I9p/67OW+g967TNr3Sotn3IuVlfMLVnsBwH4fsnebJvyGm5GeIUA3jljERmrv49SizPYuq+z7c2H/jlGC+Ghhupn/hcapqmcudB9jwJ/3jvnvu6vu5lVzF1fXyZuZZ7U8nRmVzytvT+H3kilYvH09mLWrQdwFSsFEsxFVs5fK7A0g8gMZjbif4ACpKbjv7gNGaD8bUrlk8x+KRflttr22JEMRUbTUwwDQScyzPgedQHZT0xnx7ujw2jfVfExwYHwOsDTjLdJ2ebmeQIlJ7neo41s/DrsL3kl+W2lWvAga0tR3zueGr6GL78M3ifH0rGXrBC2aAR8uYcIA5gwV8zIE8onoh8u0Fca/ciF7j1uOzEnqcIm59sEXoGc0+z6+H45V1CvAvHcD7THztu669cnp+L0okAeIc6zjbM/24LgGM1gZk7jnRu1aQWoU9sfUOuhrmtaPIO3YY1KLLWZaEO5TKUbMY5zx8W9UJ6elpLwKXbsaZ4EFl7B4bMtDv0iRipKoDQT2sNQI9b1utXFdYisi+wzZ/ri/1m7QfDgEuvgUUEIJPq3DhX/5DWNqIXDOweC2wvIR90Oq3lDpdMIgD2r0dXvGdsEW5H6x6HLRJYU7C69VefO1x8Gde1ZFSJLfWS1jbCnhtOPxmpfv2LXOA2Xk2tvnwKKPFuZ/oRmwBwqRQDcKNeVQkYcOjtWVBuM/JuYw5b6isojIkYxyYAFn5K7ZBF10fea52y8QltAg6jnMqNHFBmGkQ1j+U43HMi2xMar1Nv0zGsf1s8nUsmUtPOOrbFIR8bHFDMB5zL13Gmr/kGlCkUzedTzzmzsaJXhYawnA3UmARpiYj5ooJZiUoxFRtK3X6pgNPv+IZVPcnwbOl6f+aBaO1CNvPW9n9LmCp01nuSaTRF2YxHqZ8DYQT6WsXT+RD6eUztwYLZ8rM+rcPxamv1VQzFUkzFXvkiVrySGQgJNvXHJAxiU3/NwiC03rSf05VBaPtu/Z7/B8Yn/w7eguloAAAAAElFTkSuQmCC');
+  }
+
+  div.callout-note.callout-style-default .callout-title {
+    background-color: #dae6fb
+  }
+
+  div.callout-important {
+    border-left-color: #d9534f !important;
+  }
+
+  div.callout-important .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEKklEQVRYCcVXTWhcVRS+575MJym48A+hSRFr00ySRQhURRfd2HYjk2SSTokuBCkU2o0LoSKKraKIBTcuFCoidGFD08nkBzdREbpQ1EDNIv8qSGMFUboImMSZd4/f9zJv8ibJMC8xJQfO3HPPPef7zrvvvnvviIkpC9nsw0UttFunbUhpFzFtarSd6WJkStVMw5xyVqYTvkwfzuf/5FgtkVoB0729j1rjXwThS7Vio+Mo6DNnvLfahoZ+i/o32lULuJ3NNiz7q6+pyAUkJaFF6JwaM2lUJlV0MlnQn5aTRbEu0SEqHUa0A4AdiGuB1kFXRfVyg5d87+Dg4DL6m2TLAub60ilj7A1Ec4odSAc8X95sHh7+ZRPCFo6Fnp7HfU/fBng/hi10CjCnWnJjsxvDNxWw0NfV6Rv5GgP3I3jGWXumdTD/3cbEOP2ZbOZp69yniG3FQ9z1jD7bnBu9Fc2tKGC2q+uAJOQHBDRiZX1x36o7fWBs7J9ownbtO+n0/qWkvW7UPIfc37WgT6ZGR++EOJyeQDSb9UB+DZ1G6DdLDzyS+b/kBCYGsYgJbSQHuThGKRcw5xdeQf8YdNHsc6ePXrlSYMBuSIAFTGAtQo+VuALo4BX83N190NWZWbynBjhOHsmNfFWLeL6v+ynsA58zDvvAC8j5PkbOcXCMg2PZFk3q8MjI7WAG/Dp9AwP7jdGBOOQkAvlFUB+irtm16I1Zw9YBcpGTGXYmk3kQIC/Cds55l+iMI3jqhjAuaoe+am2Jw5GT3Nbz3CkE12NavmzN5+erJW7046n/CH1RO/RVa8lBLozXk9uqykkGAyRXLWlLv5jyp4RFsG5vGVzpDLnIjTWgnRy2Rr+tDKvRc7Y8AyZq10jj8DqXdnIRNtFZb+t/ZRtXcDiVnzpqx8mPcDWxgARUqx0W1QB9MeUZiNrV4qP+Ehc+BpNgATsTX8ozYKL2NtFYAHc84fG7ndxUPr+AR/iQSns7uSUufAymwDOb2+NjK27lEFocm/EE2WpyIy/Hi66MWuMKJn8RvxIcj87IM5Vh9663ziW36kR0HNenXuxmfaD8JC7tfKbrhFr7LiZCrMjrzTeGx+PmkosrkNzW94ObzwocJ7A1HokLolY+AvkTiD/q1H0cN48c5EL8Crkttsa/AXQVDmutfyku0E7jShx49XqV3MFK8IryDhYVbj7Sj2P2eBxwcXoe8T8idsKKPRcnZw1b+slFTubwUwhktrfnAt7J++jwQtLZcm3sr9LQrjRzz6cfMv9aLvgmnAGvpoaGLxM4mAEaLV7iAzQ3oU0IvD5x9ix3yF2RAAuYAOO2f7PEFWCXZ4C9Pb2UsgDeVnFSpbFK7/IWu7TPTvBqzbGdCHOJQSxiEjt6IyZmxQyEJHv6xyQsYk//moVFsN2zP6fRImjfq7/n/wFDguUQFNEwugAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-important.callout-style-default .callout-title {
+    background-color: #f7dddc
+  }
+
+  div.callout-warning {
+    border-left-color: #f0ad4e !important;
+  }
+
+  div.callout-warning .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAETklEQVRYCeVWW2gcVRg+58yaTUnizqbipZeX4uWhBEniBaoUX1Ioze52t7sRq6APio9V9MEaoWlVsFasRq0gltaAPuxms8lu0gcviE/FFOstVbSIxgcv6SU7EZqmdc7v9+9mJtNks51NTUH84ed889/PP+cmxP+d5FIbMJmNbpREu4WUkiTtCicKny0l1pIKmBzovF2S+hIJHX8iEu3hZJ5lNZGqyRrGSIQpq15AzF28jgpeY6yk6GVdrfFqdrD6Iw+QlB8g0YS2g7dyQmXM/IDhBhT0UCiRf59lfqmmDvzRt6kByV/m4JjtzuaujMUM2c5Z2d6JdKrRb3K2q6mA+oYVz8JnDdKPmmNthzkAk/lN63sYPgevrguc72aZX/L9C6x09GYyxBgCX4NlvyGUHOKELlm5rXeR1kchuChJt4SSwyddZRXgvwMGvYo4QSlk3/zkHD8UHxwVJA6zjZZqP8v8kK8OWLnIZtLyCAJagYC4rTGW/9Pqj92N/c+LUaAj27movwbi19tk/whRCIE7Q9vyI6yvRpftAKVTdUjOW40X3h5OXsKCdmFcx0xlLJoSuQngnrJe7Kcjm4OMq9FlC7CMmScQANuNvjfP3PjGXDBaUQmbp296S5L4DrpbrHN1T87ZVEZVCzg1FF0Ft+dKrlLukI+/c9ENo+TvlTDbYFvuKPtQ9+l052rXrgKoWkDAFnvh0wTOmYn8R5f4k/jN/fZiCM1tQx9jQQ4ANhqG4hiL0qIFTGViG9DKB7GYzgubnpofgYRwO+DFjh0Zin2m4b/97EDkXkc+f6xYAPX0KK2I/7fUQuwzuwo/L3AkcjugPNixC8cHf0FyPjWlItmLxWw4Ou9YsQCr5fijMGoD/zpdRy95HRysyXA74MWOnscpO4j2y3HAVisw85hX5+AFBRSHt4ShfLFkIMXTqyKFc46xdzQM6XbAi702a7sy04J0+feReMFKp5q9esYLCqAZYw/k14E/xcLLsFElaornTuJB0svMuJINy8xkIYuL+xPAlWRceH6+HX7THJ0djLUom46zREu7tTkxwmf/FdOZ/sh6Q8qvEAiHpm4PJ4a/doJe0gH1t+aHRgCzOvBvJedEK5OFE5jpm4AGP2a8Dxe3gGJ/pAutug9Gp6he92CsSsWBaEcxGx0FHytmIpuqGkOpldqNYQK8cSoXvd+xLxXADw0kf6UkJNFtdo5MOgaLjiQOQHcn+A6h5NuL2s0qsC2LOM75PcF3yr5STuBSAcGG+meA14K/CI21HcS4LBT6tv0QAh8Dr5l93AhZzG5ZJ4VxAqdZUEl9z7WJ4aN+svMvwHHL21UKTd1mqvChH7/Za5xzXBBKrUcB0TQ+Ulgkfbi/H/YT5EptrGzsEK7tR1B7ln9BBwckYfMiuSqklSznIuoIIOM42MQO+QnduCoFCI0bpkzjCjddHPN/F+2Yu+sd9bKNpVwHhbS3LluK/0zgfwD0xYI5dXuzlQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-warning.callout-style-default .callout-title {
+    background-color: #fcefdc
+  }
+
+  div.callout-tip {
+    border-left-color: #02b875 !important;
+  }
+
+  div.callout-tip .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAADr0lEQVRYCe1XTWgTQRj9ZjZV8a9SPIkKgj8I1bMHsUWrqYLVg4Ue6v9BwZOxSYsIerFao7UiUryIqJcqgtpimhbBXoSCVxUFe9CTiogUrUp2Pt+3aUI2u5vdNh4dmMzOzHvvezuz8xNFM0mjnbXaNu1MvFWRXkXEyE6aYOYJpdW4IXuA4r0fo8qqSMDBU0v1HJUgVieAXxzCsdE/YJTdFcVIZQNMyhruOMJKXYFoLfIfIvVIMWdsrd+Rpd86ZmyzzjJmLStqRn0v8lzkb4rVIXvnpScOJuAn2ACC65FkPzEdEy4TPWRLJ2h7z4cArXzzaOdKlbOvKKX25Wl00jSnrwVxAg3o4dRxhO13RBSdNvH0xSARv3adTXbBdTf64IWO2vH0LT+cv4GR1DJt+DUItaQogeBX/chhbTBxEiZ6gftlDNXTrvT7co4ub5A6gp9HIcHvzTa46OS5fBeP87Qm0fQkr4FsYgVQ7Qg+ZayaDg9jhg1GkWj8RG6lkeSacrrHgDaxdoBiZPg+NXV/KifMuB6//JmYH4CntVEHy/keA6x4h4CU5oFy8GzrBS18cLJMXcljAKB6INjWsRcuZBWVaS3GDrqB7rdapVIeA+isQ57Eev9eCqzqOa81CY05VLd6SamW2wA2H3SiTbnbSxmzfp7WtKZkqy4mdyAlGx7ennghYf8voqp9cLSgKdqNfa6RdRsAAkPwRuJZNbpByn+RrJi1RXTwdi8RQF6ymDwGMAtZ6TVE+4uoKh+MYkcLsT0Hk8eAienbiGdjJHZTpmNjlbFJNKDVAp2fJlYju6IreQxQ08UJDNYdoLSl6AadO+fFuCQqVMB1NJwPm69T04Wv5WhfcWyfXQB+wXRs1pt+nCknRa0LVzSA/2B+a9+zQJadb7IyyV24YAxKp2Jqs3emZTuNnKxsah+uabKbMk7CbTgJx/zIgQYErIeTKRQ9yD9wxVof5YolPHqaWo7TD6tJlh7jQnK5z2n3+fGdggIOx2kaa2YI9QWarc5Ce1ipNWMKeSG4DysFF52KBmTNMmn5HqCFkwy34rDg05gDwgH3bBi+sgFhN/e8QvRn8kbamCOhgrZ9GJhFDgfcMHzFb6BAtjKpFhzTjwv1KCVuxHvCbsSiEz4CANnj84cwHdFXAbAOJ4LTSAawGWFn5tDhLMYz6nWeU2wJfIhmIJBefcd/A5FWQWGgrWzyORZ3Q6HuV+Jf0Bj+BTX69fm1zWgK7By1YTXchFDORywnfQ7GpzOo6S+qECrsx2ifVQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-tip.callout-style-default .callout-title {
+    background-color: #ccf1e3
+  }
+
+  div.callout-caution {
+    border-left-color: #fd7e14 !important;
+  }
+
+  div.callout-caution .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAACV0lEQVRYCdVWzWoUQRCuqp2ICBLJXgITZL1EfQDBW/bkzUMUD7klD+ATSHBEfAIfQO+iXsWDxJsHL96EHAwhgzlkg8nBg25XWb0zIb0zs9muYYWkoKeru+vn664fBqElyZNuyh167NXJ8Ut8McjbmEraKHkd7uAnAFku+VWdb3reSmRV8PKSLfZ0Gjn3a6Xlcq9YGb6tADjn+lUfTXtVmaZ1KwBIvFI11rRXlWlatwIAAv2asaa9mlB9wwygiDX26qaw1yYPzFXg2N1GgG0FMF8Oj+VIx7E/03lHx8UhvYyNZLN7BwSPgekXXLribw7w5/c8EF+DBK5idvDVYtEEwMeYefjjLAdEyQ3M9nfOkgnPTEkYU+sxMq0BxNR6jExrAI31H1rzvLEfRIdgcv1XEdj6QTQAS2wtstEALLG1yEZ3QhH6oDX7ExBSFEkFINXH98NTrme5IOaaA7kIfiu2L8A3qhH9zRbukdCqdsA98TdElyeMe5BI8Rs2xHRIsoTSSVFfCFCWGPn9XHb4cdobRIWABNf0add9jakDjQJpJ1bTXOJXnnRXHRf+dNL1ZV1MBRCXhMbaHqGI1JkKIL7+i8uffuP6wVQAzO7+qVEbF6NbS0LJureYcWXUUhH66nLR5rYmva+2tjRFtojkM2aD76HEGAD3tPtKM309FJg5j/K682ywcWJ3PASCcycH/22u+Bh7Aa0ehM2Fu4z0SAE81HF9RkB21c5bEn4Dzw+/qNOyXr3DCTQDMBOdhi4nAgiFDGCinIa2owCEChUwD8qzd03PG+qdW/4fDzjUMcE1ZpIAAAAASUVORK5CYII=');
+  }
+
+  div.callout-caution.callout-style-default .callout-title {
+    background-color: #ffe5d0
+  }
+
+  </style>
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-dark">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Regresión lineal</h1>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Máster en Ciencias de Datos e Ingeniería de Computadores Minería de Datos - Preprocesamiento y clasificación 
+</div>
+</div>
+</div>
+
+  <p class="date">2023-11-01</p>
+</section><section id="TOC">
+<nav role="doc-toc"> 
+<h2 id="toc-title">Tabla de Contenidos</h2>
+<ul>
+<li><a href="#/imports-iniciales" id="/toc-imports-iniciales">Imports iniciales</a></li>
+<li><a href="#/regresión-lineal" id="/toc-regresión-lineal">Regresión lineal</a></li>
+<li><a href="#/regresión-polinomial" id="/toc-regresión-polinomial">Regresión polinomial</a></li>
+<li><a href="#/regresión-con-splines" id="/toc-regresión-con-splines">Regresión con Splines</a></li>
+<li><a href="#/regresión-lineal-a-trozos-loess" id="/toc-regresión-lineal-a-trozos-loess">Regresión lineal a trozos (LOESS)</a></li>
+<li><a href="#/generalized-additive-models" id="/toc-generalized-additive-models">Generalized Additive Models</a></li>
+<li><a href="#/gradiente-descendente-estocástico" id="/toc-gradiente-descendente-estocástico">Gradiente descendente estocástico</a></li>
+<li><a href="#/ridge-regression" id="/toc-ridge-regression">Ridge Regression</a></li>
+<li><a href="#/lasso-regression" id="/toc-lasso-regression">Lasso regression</a></li>
+<li><a href="#/elastic-net" id="/toc-elastic-net">Elastic Net</a></li>
+<li><a href="#/regresión-mediante-mínimos-cuadrados-parciales-pls-regression" id="/toc-regresión-mediante-mínimos-cuadrados-parciales-pls-regression">Regresión mediante mínimos cuadrados parciales (PLS regression)</a></li>
+<li><a href="#/regresión-con-mlp-multi-layer-perceptron" id="/toc-regresión-con-mlp-multi-layer-perceptron">Regresión con MLP (Multi-layer Perceptron)</a></li>
+<li><a href="#/consideraciones-generales" id="/toc-consideraciones-generales">Consideraciones generales</a></li>
+</ul>
+</nav>
+</section>
+<section id="imports-iniciales" class="title-slide slide level1 center">
+<h1>Imports iniciales</h1>
+<p>Asegúrate de que tienes instalados todos los paquetes y librerías antes de continuar.</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> fetch_openml</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_absolute_error, mean_squared_error, r2_score</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="im">from</span> sklearn <span class="im">import</span> linear_model <span class="im">as</span> lm</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-7"><a href="#cb1-7"></a></span>
+<span id="cb1-8"><a href="#cb1-8"></a>bodyfat <span class="op">=</span> fetch_openml(name<span class="op">=</span><span class="st">'bodyfat'</span>, version<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb1-9"><a href="#cb1-9"></a>df <span class="op">=</span> pd.DataFrame(data<span class="op">=</span> np.c_[bodyfat[<span class="st">'data'</span>], bodyfat[<span class="st">'target'</span>]],</span>
+<span id="cb1-10"><a href="#cb1-10"></a>                     columns<span class="op">=</span> bodyfat[<span class="st">'feature_names'</span>] <span class="op">+</span> [<span class="st">'target'</span>])</span>
+<span id="cb1-11"><a href="#cb1-11"></a>y <span class="op">=</span> df[<span class="st">'target'</span>]</span>
+<span id="cb1-12"><a href="#cb1-12"></a>X <span class="op">=</span> df.loc[:, df.columns <span class="op">!=</span> <span class="st">'target'</span>]</span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="bu">print</span>(X.head())</span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="bu">print</span>(X.shape)</span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="bu">print</span>(y.head())</span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="bu">print</span>(y.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Density   Age  Weight  Height  Neck  Chest  Abdomen    Hip  Thigh  Knee  \
+0   1.0708  23.0  154.25   67.75  36.2   93.1     85.2   94.5   59.0  37.3   
+1   1.0853  22.0  173.25   72.25  38.5   93.6     83.0   98.7   58.7  37.3   
+2   1.0414  22.0  154.00   66.25  34.0   95.8     87.9   99.2   59.6  38.9   
+3   1.0751  26.0  184.75   72.25  37.4  101.8     86.4  101.2   60.1  37.3   
+4   1.0340  24.0  184.25   71.25  34.4   97.3    100.0  101.9   63.2  42.2   
+
+   Ankle  Biceps  Forearm  Wrist  
+0   21.9    32.0     27.4   17.1  
+1   23.4    30.5     28.9   18.2  
+2   24.0    28.8     25.2   16.6  
+3   22.8    32.4     29.4   18.2  
+4   24.0    32.2     27.7   17.7  
+(252, 14)
+0    12.3
+1     6.1
+2    25.3
+3    10.4
+4    28.7
+Name: target, dtype: float64
+(252,)</code></pre>
+</div>
+</div>
+</section>
+
+<section>
+<section id="regresión-lineal" class="title-slide slide level1 center">
+<h1>Regresión lineal</h1>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a>reg <span class="op">=</span> LinearRegression().fit(X, y)</span>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a>y_pred <span class="op">=</span> reg.predict(X)</span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="bu">print</span>(<span class="st">"Mean squared error: "</span>, mean_squared_error(y, y_pred))</span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="bu">print</span>(<span class="st">"Mean absolute error: "</span>, mean_absolute_error(y, y_pred))</span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="bu">print</span>(<span class="st">"R2 score: "</span>, r2_score(y, y_pred))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mean squared error:  1.527203518390814
+Mean absolute error:  0.48019660083734544
+R2 score:  0.9781070874885559</code></pre>
+</div>
+</div>
+</section>
+<section id="ejercicio" class="slide level2">
+<h2>Ejercicio</h2>
+<p>Selecciona un par de variables interesantes para poder dibujar el gráfico de la regresión lineal y observa el ajuste gráfico frente a las medidas de rendimiento obtenidas</p>
+<p>Para dibujar un gráfico de ajuste con scatter plot puedes usar este código básico:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>plt.scatter(X, y,color<span class="op">=</span><span class="st">'g'</span>) </span>
+<span id="cb5-2"><a href="#cb5-2"></a>plt.plot(X, y_pred, color<span class="op">=</span><span class="st">'k'</span>) </span>
+<span id="cb5-3"><a href="#cb5-3"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section></section>
+<section>
+<section id="regresión-polinomial" class="title-slide slide level1 center">
+<h1>Regresión polinomial</h1>
+<p>En Scikit Learn, la regresión polinomial se crea aplicando una transformación a los atributos, generando los nuevos atributos con los coeficientes del polinomio. A continuación, se realiza un ajuste de una regresión lineal.</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures</span>
+<span id="cb6-2"><a href="#cb6-2"></a></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="co"># Por defecto, PolynomialFeatures incluye el término independiente Bias a true</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>poly_reg <span class="op">=</span> PolynomialFeatures(degree<span class="op">=</span><span class="dv">3</span>) <span class="co">#cuidado con el grado: el número de coeficientes crece exponencialmente con su valor de acuerdo a la matriz de Vandermonde</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a></span>
+<span id="cb6-6"><a href="#cb6-6"></a>X_poly <span class="op">=</span> poly_reg.fit_transform(X)</span>
+<span id="cb6-7"><a href="#cb6-7"></a></span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="co"># Ya tenemos las características transformadas, ahora entrenamos el modelo</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a>reg2 <span class="op">=</span> LinearRegression()</span>
+<span id="cb6-10"><a href="#cb6-10"></a>reg2.fit(X_poly,y) <span class="co"># Aquí es donde ajustamos los coefientes del modelo y reg2 se actualiza en consecuencia</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a></span>
+<span id="cb6-12"><a href="#cb6-12"></a>y_pred <span class="op">=</span> reg2.predict(X_poly)</span>
+<span id="cb6-13"><a href="#cb6-13"></a></span>
+<span id="cb6-14"><a href="#cb6-14"></a><span class="bu">print</span>(<span class="st">"Mean squared error: "</span>, mean_squared_error(y, y_pred))</span>
+<span id="cb6-15"><a href="#cb6-15"></a><span class="bu">print</span>(<span class="st">"Mean absolute error: "</span>, mean_absolute_error(y, y_pred))</span>
+<span id="cb6-16"><a href="#cb6-16"></a><span class="bu">print</span>(<span class="st">"R2 score: "</span>, r2_score(y, y_pred))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mean squared error:  1.0401528960752632e-21
+Mean absolute error:  3.080810122004855e-11
+R2 score:  1.0</code></pre>
+</div>
+</div>
+<p>Es posible crear un flujo completo de trabajo utilizando la función make_pipeline().</p>
+<p>Esta función genera la transformación y la aplica al regresor (lineal en nuestro caso) en una única línea.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
+<span id="cb8-2"><a href="#cb8-2"></a></span>
+<span id="cb8-3"><a href="#cb8-3"></a>reg3 <span class="op">=</span> make_pipeline(PolynomialFeatures(degree<span class="op">=</span><span class="dv">3</span>), LinearRegression())</span>
+<span id="cb8-4"><a href="#cb8-4"></a>reg3.fit(X,y) </span>
+<span id="cb8-5"><a href="#cb8-5"></a></span>
+<span id="cb8-6"><a href="#cb8-6"></a>y_pred <span class="op">=</span> reg3.predict(X) <span class="co"># Fíjate que utilizamos los datos sin transformar para realizar la predicción. El pipeline se encarga de realizar la transformación</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a></span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="bu">print</span>(<span class="st">"Mean squared error: "</span>, mean_squared_error(y, y_pred))</span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="bu">print</span>(<span class="st">"Mean absolute error: "</span>, mean_absolute_error(y, y_pred))</span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="bu">print</span>(<span class="st">"R2 score: "</span>, r2_score(y, y_pred))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mean squared error:  1.0401528960752632e-21
+Mean absolute error:  3.080810122004855e-11
+R2 score:  1.0</code></pre>
+</div>
+</div>
+</section>
+<section id="ejercicio-1" class="slide level2">
+<h2>Ejercicio</h2>
+<p>¿Por qué los valores de rendimiento mejoran cuando aumentamos el grado del ajuste polinomial? Pruebe a realizar una validación de training y test (mínimo un Hold-out) y observe de nuevo el efecto de aumentar el grado del polinomio.</p>
+<p><strong>Nota</strong>: Si utiliza particiones de entrenamiento y test, tendrá que aplicar el método fit_transform a los valores X tanto del conjunto de entrenamiento como del conjunto de test.</p>
+</section></section>
+<section>
+<section id="regresión-con-splines" class="title-slide slide level1 center">
+<h1>Regresión con Splines</h1>
+<p>En la regresión con splines se aplica la regresión polinómica “a trozos”: entre ciertos valores de los atributos de entrada (los nodos o “knots”) se genera el ajuste de un regresor polinómico. Esto supone crear una transformación como la que hemos visto para la regresión polinómica, pero la matriz de transformación es diferente ahora.</p>
+<p>Además, hemos de elegir qué estimador polinómico queremos ajustar entre los nodos.</p>
+<p>Para condensar el ejemplo, utilizaremos la función make_pipeline() de nuevo.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures, SplineTransformer</span>
+<span id="cb10-3"><a href="#cb10-3"></a></span>
+<span id="cb10-4"><a href="#cb10-4"></a>spline <span class="op">=</span> make_pipeline(SplineTransformer(n_knots<span class="op">=</span><span class="dv">8</span>, degree<span class="op">=</span><span class="dv">6</span>), LinearRegression()) <span class="co">#n_knots es el número de puntos de control y degree el grado del polinomio</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a>spline.fit(X, y)</span>
+<span id="cb10-6"><a href="#cb10-6"></a></span>
+<span id="cb10-7"><a href="#cb10-7"></a>y_pred <span class="op">=</span> spline.predict(X)</span>
+<span id="cb10-8"><a href="#cb10-8"></a></span>
+<span id="cb10-9"><a href="#cb10-9"></a><span class="bu">print</span>(<span class="st">"Mean squared error: "</span>, mean_squared_error(y, y_pred))</span>
+<span id="cb10-10"><a href="#cb10-10"></a><span class="bu">print</span>(<span class="st">"Mean absolute error: "</span>, mean_absolute_error(y, y_pred))</span>
+<span id="cb10-11"><a href="#cb10-11"></a><span class="bu">print</span>(<span class="st">"R2 score: "</span>, r2_score(y, y_pred))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mean squared error:  0.1949048845351688
+Mean absolute error:  0.2389555431547619
+R2 score:  0.9972059810406424</code></pre>
+</div>
+</div>
+</section>
+<section id="ejercicio-2" class="slide level2">
+<h2>Ejercicio</h2>
+<ol type="1">
+<li>Observa el efecto del número de nodos o puntos de control y del grado en el rendimiento del algoritmo.</li>
+<li>Experimenta con una validación adecuada (Hold-out o validación cruzada) y el uso del pipeline para realizar la validación.</li>
+<li>Prueba a elegir un atributo de entrada para poder pintar con un plot el resultado del ajuste spline frente a la salida.</li>
+</ol>
+</section></section>
+<section>
+<section id="regresión-lineal-a-trozos-loess" class="title-slide slide level1 center">
+<h1>Regresión lineal a trozos (LOESS)</h1>
+<p>Actualmente, sklearn no incluye este modelo de regresión, aunque el paquete statmodels sí incluye una versión unidimensional.</p>
+<p>La incluimos a continuación y mostramos un ejemplo de su utilización en nuestro conjunto para una de las características.</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="im">from</span> statsmodels.api <span class="im">import</span> nonparametric</span>
+<span id="cb12-2"><a href="#cb12-2"></a></span>
+<span id="cb12-3"><a href="#cb12-3"></a>X_mono <span class="op">=</span> X[<span class="st">'Abdomen'</span>] <span class="co"># La regresión linea a trozos sólo admite una variable independiente en statsmodels</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a></span>
+<span id="cb12-5"><a href="#cb12-5"></a></span>
+<span id="cb12-6"><a href="#cb12-6"></a>lowess_sm <span class="op">=</span> nonparametric.lowess</span>
+<span id="cb12-7"><a href="#cb12-7"></a></span>
+<span id="cb12-8"><a href="#cb12-8"></a>y_pred <span class="op">=</span> lowess_sm(y,X_mono.to_numpy(),frac<span class="op">=</span><span class="fl">1.</span><span class="op">/</span><span class="fl">3.</span>,it<span class="op">=</span><span class="dv">3</span>, return_sorted <span class="op">=</span> <span class="va">False</span>)</span>
+<span id="cb12-9"><a href="#cb12-9"></a><span class="bu">print</span>(<span class="st">"Mean squared error: "</span>, mean_squared_error(y, y_pred))</span>
+<span id="cb12-10"><a href="#cb12-10"></a><span class="bu">print</span>(<span class="st">"Mean absolute error: "</span>, mean_absolute_error(y, y_pred))</span>
+<span id="cb12-11"><a href="#cb12-11"></a><span class="bu">print</span>(<span class="st">"R2 score: "</span>, r2_score(y, y_pred))</span>
+<span id="cb12-12"><a href="#cb12-12"></a></span>
+<span id="cb12-13"><a href="#cb12-13"></a>plt.scatter(X[<span class="st">'Abdomen'</span>], y, color <span class="op">=</span> <span class="st">'red'</span>)</span>
+<span id="cb12-14"><a href="#cb12-14"></a>plt.plot(X[<span class="st">'Abdomen'</span>], y_pred, color <span class="op">=</span> <span class="st">'blue'</span>)</span>
+<span id="cb12-15"><a href="#cb12-15"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mean squared error:  21.279077149942545
+Mean absolute error:  3.716767301273681
+R2 score:  0.694958157994011</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img data-src="P1_regresion_files/figure-revealjs/cell-7-output-2.png" class="margin-caption" width="790" height="263"></p>
+</div>
+</div>
+</section>
+<section id="ejercicio-3" class="slide level2">
+<h2>Ejercicio</h2>
+<p>Se aprecia como la regresión “va y vuelve”. Intente solucionarlo ordenando los datos de entrada (X_mono).</p>
+</section></section>
+<section>
+<section id="generalized-additive-models" class="title-slide slide level1 center">
+<h1>Generalized Additive Models</h1>
+<p>De nuevo, sklearn no tiene una implementación nativa de GAMs. Es posible encontrar una buena biblioteca en https://pygam.readthedocs.io/en/latest/</p>
+<p>La información para su instalación está en https://pygam.readthedocs.io/en/latest/notebooks/quick_start.html#Install-pyGAM</p>
+<p>Recordemos que las GAMs permiten establecer linealidades o no linealidades en diferentes atributos a nuestra elección. PyGAM especifica esto en la creación del modelo.</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="im">from</span> pygam <span class="im">import</span> LinearGAM, s, f, l</span>
+<span id="cb14-2"><a href="#cb14-2"></a></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="co"># Definimos el modelo utilizando las siguientes funciones:</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="co"># 1. la función s para indicar que se ajustara una función spline a la variable independiente con el correspondiente índice</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a><span class="co"># 2. En el caso de usar f, se aplicará un factor de ajuste a la variable independiente con el correspondiente índice</span></span>
+<span id="cb14-6"><a href="#cb14-6"></a><span class="co"># 3. En el caso de usar l, se aplicará un término lineal a la variable independiente con el correspondiente índice</span></span>
+<span id="cb14-7"><a href="#cb14-7"></a></span>
+<span id="cb14-8"><a href="#cb14-8"></a><span class="co"># Tenemos 14 atributos de entrada en nuestro conjunto, vamos a realizar un ajuste por cada uno de ellos de forma arbitraria</span></span>
+<span id="cb14-9"><a href="#cb14-9"></a>gam <span class="op">=</span> LinearGAM(s(<span class="dv">0</span>) <span class="op">+</span> s(<span class="dv">1</span>) <span class="op">+</span> f(<span class="dv">2</span>) <span class="op">+</span> l(<span class="dv">3</span>) <span class="op">+</span> l(<span class="dv">4</span>) <span class="op">+</span> l(<span class="dv">5</span>) <span class="op">+</span> l(<span class="dv">6</span>) <span class="op">+</span> l(<span class="dv">7</span>) <span class="op">+</span> l(<span class="dv">8</span>) <span class="op">+</span> l(<span class="dv">9</span>) <span class="op">+</span> l(<span class="dv">10</span>) <span class="op">+</span> l(<span class="dv">11</span>) <span class="op">+</span> l(<span class="dv">12</span>) <span class="op">+</span> l(<span class="dv">13</span>))</span>
+<span id="cb14-10"><a href="#cb14-10"></a></span>
+<span id="cb14-11"><a href="#cb14-11"></a>gam.fit(X, y)</span>
+<span id="cb14-12"><a href="#cb14-12"></a></span>
+<span id="cb14-13"><a href="#cb14-13"></a><span class="co">#Vamos a visualizar el modelo</span></span>
+<span id="cb14-14"><a href="#cb14-14"></a>gam.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>LinearGAM                                                                                                 
+=============================================== ==========================================================
+Distribution:                        NormalDist Effective DoF:                                     92.6098
+Link Function:                     IdentityLink Log Likelihood:                                  -334.9558
+Number of Samples:                          252 AIC:                                              857.1311
+                                                AICc:                                             969.6719
+                                                GCV:                                                3.0667
+                                                Scale:                                              1.1429
+                                                Pseudo R-Squared:                                   0.9896
+==========================================================================================================
+Feature Function                  Lambda               Rank         EDoF         P &gt; x        Sig. Code   
+================================= ==================== ============ ============ ============ ============
+s(0)                              [0.6]                20           13.9         1.11e-16     ***         
+s(1)                              [0.6]                20           12.9         6.27e-02     .           
+f(2)                              [0.6]                197          64.9         1.53e-01                 
+l(3)                              [0.6]                1            0.1          2.88e-01                 
+l(4)                              [0.6]                1            0.1          8.60e-01                 
+l(5)                              [0.6]                1            0.1          7.32e-02     .           
+l(6)                              [0.6]                1            0.1          3.31e-01                 
+l(7)                              [0.6]                1            0.1          8.00e-01                 
+l(8)                              [0.6]                1            0.1          4.46e-02     *           
+l(9)                              [0.6]                1            0.1          8.58e-01                 
+l(10)                             [0.6]                1            0.1          2.93e-01                 
+l(11)                             [0.6]                1            0.1          7.71e-01                 
+l(12)                             [0.6]                1            0.1          4.83e-01                 
+l(13)                             [0.6]                1            0.0          8.77e-01                 
+intercept                                              1            0.0          8.34e-14     ***         
+==========================================================================================================
+Significance codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+WARNING: Fitting splines and a linear function to a feature introduces a model identifiability problem
+         which can cause p-values to appear significant when they are not.
+
+WARNING: p-values calculated in this manner behave correctly for un-penalized models or models with
+         known smoothing parameters, but when smoothing parameters have been estimated, the p-values
+         are typically lower than they should be, meaning that the tests reject the null too readily.</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>y_pred <span class="op">=</span> gam.predict(X)</span>
+<span id="cb16-2"><a href="#cb16-2"></a></span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="bu">print</span>(<span class="st">"Mean squared error: "</span>, mean_squared_error(y, y_pred))</span>
+<span id="cb16-4"><a href="#cb16-4"></a><span class="bu">print</span>(<span class="st">"Mean absolute error: "</span>, mean_absolute_error(y, y_pred))</span>
+<span id="cb16-5"><a href="#cb16-5"></a><span class="bu">print</span>(<span class="st">"R2 score: "</span>, r2_score(y, y_pred))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mean squared error:  0.7228584994869764
+Mean absolute error:  0.38610795714602486
+R2 score:  0.989637610379462</code></pre>
+</div>
+</div>
+</section>
+<section id="ejercicios" class="slide level2">
+<h2>Ejercicios</h2>
+<ol type="1">
+<li>Observe los p-values devueltos por el summary() de nuestra GAM. Aquellos valores más bajos dan pistas de los atributos más importantes. Prueve a variar el ajuste utilizado para esos atributos.</li>
+<li>Pruebe a ajustar los parámetros de regularización con el método gridsearch() (más info en https://pygam.readthedocs.io/en/latest/notebooks/quick_start.html#Automatically-tune-the-model)</li>
+</ol>
+</section></section>
+<section>
+<section id="gradiente-descendente-estocástico" class="title-slide slide level1 center">
+<h1>Gradiente descendente estocástico</h1>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> SGDRegressor</span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb18-3"><a href="#cb18-3"></a></span>
+<span id="cb18-4"><a href="#cb18-4"></a>sgd <span class="op">=</span> SGDRegressor(max_iter<span class="op">=</span><span class="dv">1000</span>, tol<span class="op">=</span><span class="fl">1e-3</span>, penalty<span class="op">=</span><span class="st">'l2'</span>, alpha<span class="op">=</span><span class="fl">0.1</span>, eta0<span class="op">=</span><span class="fl">0.01</span>, learning_rate<span class="op">=</span><span class="st">'constant'</span>, loss<span class="op">=</span><span class="st">'squared_error'</span>, random_state<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb18-5"><a href="#cb18-5"></a>sgd.fit(X, y)</span>
+<span id="cb18-6"><a href="#cb18-6"></a></span>
+<span id="cb18-7"><a href="#cb18-7"></a>y_pred <span class="op">=</span> sgd.predict(X)</span>
+<span id="cb18-8"><a href="#cb18-8"></a></span>
+<span id="cb18-9"><a href="#cb18-9"></a><span class="bu">print</span>(<span class="st">"Mean squared error: "</span>, mean_squared_error(y, y_pred))</span>
+<span id="cb18-10"><a href="#cb18-10"></a><span class="bu">print</span>(<span class="st">"Mean absolute error: "</span>, mean_absolute_error(y, y_pred))</span>
+<span id="cb18-11"><a href="#cb18-11"></a><span class="bu">print</span>(<span class="st">"R2 score: "</span>, r2_score(y, y_pred))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mean squared error:  4.980196662455605e+28
+Mean absolute error:  221866626764848.4
+R2 score:  -7.139258684776369e+26</code></pre>
+</div>
+</div>
+<p>Los resultados obtenidos en el bloque de código anterior son muy pobres.</p>
+<p>Vamos a normalizar los datos para que tengan media 0 y desviación típica 1, ya que el uso de <strong>SGD</strong> sin normalizar los datos puede provocar que el modelo no converja</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb20-2"><a href="#cb20-2"></a>X_scal <span class="op">=</span> scaler.fit_transform(X)</span>
+<span id="cb20-3"><a href="#cb20-3"></a>sgd.fit(X_scal, y)</span>
+<span id="cb20-4"><a href="#cb20-4"></a></span>
+<span id="cb20-5"><a href="#cb20-5"></a>y_pred <span class="op">=</span> sgd.predict(X_scal)</span>
+<span id="cb20-6"><a href="#cb20-6"></a></span>
+<span id="cb20-7"><a href="#cb20-7"></a><span class="bu">print</span>(<span class="st">"Mean squared error: "</span>, mean_squared_error(y, y_pred))</span>
+<span id="cb20-8"><a href="#cb20-8"></a><span class="bu">print</span>(<span class="st">"Mean absolute error: "</span>, mean_absolute_error(y, y_pred))</span>
+<span id="cb20-9"><a href="#cb20-9"></a><span class="bu">print</span>(<span class="st">"R2 score: "</span>, r2_score(y, y_pred))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mean squared error:  2.263134801441148
+Mean absolute error:  1.026306982309168
+R2 score:  0.9675572956630156</code></pre>
+</div>
+</div>
+</section>
+<section id="ejercicios-1" class="slide level2">
+<h2>Ejercicios</h2>
+<ol type="1">
+<li>Pruebe diferentes parámetros max_iter, tol, alpha y eta de SGDRegressor y observe el comportamiento del regresor.</li>
+<li>Es muy habitual realizar el escalado y el fit() del SGDRegressor. SKlearn proporciona un pipeline para juntar las dos tareas. Examine la documentación de https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDRegressor.html y aplique el método make_pipeline al ejemplo anterior</li>
+</ol>
+</section></section>
+<section>
+<section id="ridge-regression" class="title-slide slide level1 center">
+<h1>Ridge Regression</h1>
+<p>Ridge regression es un método de regresión múltiple en escenarios en los que las variables independientes (de entrada) están muy correlacionadas. Resulta especialmente útil para mitigar el problema de la multicolinealidad en la regresión lineal, que suele darse en modelos con un gran número de parámetros.</p>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a><span class="im">from</span> sklearn <span class="im">import</span> linear_model</span>
+<span id="cb22-2"><a href="#cb22-2"></a></span>
+<span id="cb22-3"><a href="#cb22-3"></a>ridge <span class="op">=</span> linear_model.Ridge(alpha<span class="op">=</span><span class="fl">.5</span>)</span>
+<span id="cb22-4"><a href="#cb22-4"></a>ridge.fit(X, y)</span>
+<span id="cb22-5"><a href="#cb22-5"></a></span>
+<span id="cb22-6"><a href="#cb22-6"></a>y_pred <span class="op">=</span> ridge.predict(X)</span>
+<span id="cb22-7"><a href="#cb22-7"></a></span>
+<span id="cb22-8"><a href="#cb22-8"></a><span class="bu">print</span>(<span class="st">"Mean squared error: "</span>, mean_squared_error(y, y_pred))</span>
+<span id="cb22-9"><a href="#cb22-9"></a><span class="bu">print</span>(<span class="st">"Mean absolute error: "</span>, mean_absolute_error(y, y_pred))</span>
+<span id="cb22-10"><a href="#cb22-10"></a><span class="bu">print</span>(<span class="st">"R2 score: "</span>, r2_score(y, y_pred))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mean squared error:  16.085521192268324
+Mean absolute error:  3.298424337773154
+R2 score:  0.7694093132168962</code></pre>
+</div>
+</div>
+</section>
+<section id="ejercicios-2" class="slide level2">
+<h2>Ejercicios</h2>
+<ol type="1">
+<li>Intente obtener el mismo comportamiento que el regresor lineal con el Ridge regressor</li>
+<li>De igual forma, es posible emular el comportamiento del Ridge regressor mediante el regresor SGD. Revise las transparencias de teoría e intente obtener dicha equivalencia.</li>
+</ol>
+</section></section>
+<section>
+<section id="lasso-regression" class="title-slide slide level1 center">
+<h1>Lasso regression</h1>
+<p>Lasso se introdujo para mejorar la precisión de las predicciones y la interpretabilidad de los modelos de regresión. Realiza una selección de un subconjunto de las covariables conocidas para su uso en un modelo.</p>
+<p>Previamente, Ridge regression era la técnica más popular para mejorar la precisión de las predicciones. Como hemos visto antes, Ridge Regression mejora el error de predicción reduciendo la suma de los cuadrados de los coeficientes de regresión para que sea inferior a un valor fijo con el fin de reducir el sobreajuste, pero no realiza la selección de covariables y, por lo tanto, no ayuda a que el modelo sea más interpretable.</p>
+<p>Lasso logra ambos objetivos al forzar la suma del valor absoluto de los coeficientes de regresión a ser inferior a un valor fijo, lo que fuerza a ciertos coeficientes a cero, excluyéndolos del impacto en la predicción. Esta idea es similar a la de Ridge regression, que también reduce el tamaño de los coeficientes; sin embargo, Ridge regression no pone los coeficientes a cero (y, por tanto, no realiza la selección de variables).</p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a><span class="im">from</span> sklearn <span class="im">import</span> linear_model</span>
+<span id="cb24-2"><a href="#cb24-2"></a></span>
+<span id="cb24-3"><a href="#cb24-3"></a>lasso <span class="op">=</span> linear_model.Lasso(alpha<span class="op">=</span><span class="fl">.5</span>)</span>
+<span id="cb24-4"><a href="#cb24-4"></a>lasso.fit(X, y)</span>
+<span id="cb24-5"><a href="#cb24-5"></a></span>
+<span id="cb24-6"><a href="#cb24-6"></a>y_pred <span class="op">=</span> lasso.predict(X)</span>
+<span id="cb24-7"><a href="#cb24-7"></a></span>
+<span id="cb24-8"><a href="#cb24-8"></a><span class="bu">print</span>(<span class="st">"Mean squared error: "</span>, mean_squared_error(y, y_pred))</span>
+<span id="cb24-9"><a href="#cb24-9"></a><span class="bu">print</span>(<span class="st">"Mean absolute error: "</span>, mean_absolute_error(y, y_pred))</span>
+<span id="cb24-10"><a href="#cb24-10"></a><span class="bu">print</span>(<span class="st">"R2 score: "</span>, r2_score(y, y_pred))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mean squared error:  18.78290910127443
+Mean absolute error:  3.537901971106999
+R2 score:  0.7307414626061789</code></pre>
+</div>
+</div>
+</section>
+<section id="ejercicios-3" class="slide level2">
+<h2>Ejercicios</h2>
+<ol type="1">
+<li>Tal y como ocurría con el Ridge regressor, puede emular el comportamiento del Ridge regressor mediante el regresor SGD. Revise las transparencias de teoría e intente obtener dicha equivalencia.</li>
+<li>Observe los coeficientes del ajuste del regresor Lasso con el método <strong>.coef_</strong> e identifique los atributos menos importantes.</li>
+<li>Con la información del punto 2, podría eliminar los atributos con un peso de cero del conjunto y mejorar el rendimiento (velocidad) de ajuste del modelo sin afectar apenas al rendimiento. Pruébelo.</li>
+</ol>
+</section></section>
+<section>
+<section id="elastic-net" class="title-slide slide level1 center">
+<h1>Elastic Net</h1>
+<p>El método Elastic Net supera las limitaciones de LASSO. La regularización de LASSO tiene varias limitaciones. Por ejemplo, en el caso “p grande, n pequeño” (datos de alta dimensión con pocos ejemplos), LASSO selecciona como máximo n variables antes de saturarse. Además, si hay un grupo de variables muy correlacionadas, LASSO tiende a seleccionar una variable del grupo e ignorar las demás. Para superar estas limitaciones, la red elástica añade una parte cuadrática <span class="math inline">\(( ||\beta||^2)\)</span> a la penalización, que corresponde a la penalización de Ridge Regression.</p>
+<p>El término de penalización cuadrática añadido hace que la función de pérdida sea fuertemente convexa y, por tanto, tiene un mínimo único. El método de Elastic Net, por tanto, incluye tanto a LASSO como a Ridge Regression: en otras palabras, estos últimos son un caso especial en el que <span class="math inline">\(\lambda_1 = \lambda, \lambda_2 = 0\)</span> o <span class="math inline">\(\lambda_1 = 0, \lambda_2 = \lambda\)</span> dada la regularización de Elastic Net: <span class="math display">\[ \hat{\beta} = \underset{\beta}{\mathrm{argmin}} (||y - X\beta||^2 + \lambda_2||\beta||^2 + \lambda_1||\beta||) \]</span></p>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a><span class="im">from</span> sklearn <span class="im">import</span> linear_model</span>
+<span id="cb26-2"><a href="#cb26-2"></a></span>
+<span id="cb26-3"><a href="#cb26-3"></a>elastic <span class="op">=</span> linear_model.ElasticNet(alpha<span class="op">=</span><span class="fl">0.5</span>, l1_ratio<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb26-4"><a href="#cb26-4"></a>elastic.fit(X, y)</span>
+<span id="cb26-5"><a href="#cb26-5"></a></span>
+<span id="cb26-6"><a href="#cb26-6"></a>y_pred <span class="op">=</span> elastic.predict(X)</span>
+<span id="cb26-7"><a href="#cb26-7"></a></span>
+<span id="cb26-8"><a href="#cb26-8"></a><span class="bu">print</span>(<span class="st">"Mean squared error: "</span>, mean_squared_error(y, y_pred))</span>
+<span id="cb26-9"><a href="#cb26-9"></a><span class="bu">print</span>(<span class="st">"Mean absolute error: "</span>, mean_absolute_error(y, y_pred))</span>
+<span id="cb26-10"><a href="#cb26-10"></a><span class="bu">print</span>(<span class="st">"R2 score: "</span>, r2_score(y, y_pred))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mean squared error:  18.13871712209908
+Mean absolute error:  3.477151372336551
+R2 score:  0.7399761444745917</code></pre>
+</div>
+</div>
+</section>
+<section id="ejercicios-4" class="slide level2">
+<h2>Ejercicios</h2>
+<ol type="1">
+<li>Dado que Elastic Net es una “combinación” de Lasso y Ridge, pruebe a modificar el parámetro <strong>l1_ratio</strong> para emular el comportamiento obtenido en los dos modelos mencionados.</li>
+<li>Observe también como cambian los coeficientes del ajuste de Elastic Net cuando modifica el <strong>l1_ratio</strong>.</li>
+</ol>
+</section></section>
+<section>
+<section id="regresión-mediante-mínimos-cuadrados-parciales-pls-regression" class="title-slide slide level1 center">
+<h1>Regresión mediante mínimos cuadrados parciales (PLS regression)</h1>
+<p>En https://scikit-learn.org/stable/modules/cross_decomposition.html es posible leer las diferentes versiones de este algoritmo. El algoritmo base es PLSCanonical, y el resto de versiones realizan modificaciones al algoritmo base para ganar eficiencia o aplicar regularizaciones.</p>
+<p>A diferencia de lo visto en teoría, no vamos a realizar la regresión de PCA+Linear regression y nos centraremos en PLS directamente. Esperaremos a la práctica de preprocesamiento para aprender cómo aplicar PCA en nuestros datos. En cualquier caso, si tienes curiosidad, este tema está tratado en sklearn directamente: https://scikit-learn.org/stable/auto_examples/cross_decomposition/plot_pcr_vs_pls.html</p>
+</section>
+<section id="pls-canonical" class="slide level2">
+<h2>PLS Canonical</h2>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a><span class="im">from</span> sklearn.cross_decomposition <span class="im">import</span> PLSCanonical</span>
+<span id="cb28-2"><a href="#cb28-2"></a></span>
+<span id="cb28-3"><a href="#cb28-3"></a><span class="co">#n_components es el número de componentes principales a utilizar</span></span>
+<span id="cb28-4"><a href="#cb28-4"></a>pls <span class="op">=</span> PLSCanonical(n_components<span class="op">=</span><span class="dv">1</span>, tol<span class="op">=</span> <span class="fl">0.001</span>, max_iter<span class="op">=</span><span class="dv">5000</span>) </span>
+<span id="cb28-5"><a href="#cb28-5"></a>pls.fit(X, y)</span>
+<span id="cb28-6"><a href="#cb28-6"></a></span>
+<span id="cb28-7"><a href="#cb28-7"></a>y_pred <span class="op">=</span> pls.predict(X)</span>
+<span id="cb28-8"><a href="#cb28-8"></a></span>
+<span id="cb28-9"><a href="#cb28-9"></a><span class="bu">print</span>(<span class="st">"Mean squared error: "</span>, mean_squared_error(y, y_pred))</span>
+<span id="cb28-10"><a href="#cb28-10"></a><span class="bu">print</span>(<span class="st">"Mean absolute error: "</span>, mean_absolute_error(y, y_pred))</span>
+<span id="cb28-11"><a href="#cb28-11"></a><span class="bu">print</span>(<span class="st">"R2 score: "</span>, r2_score(y, y_pred))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mean squared error:  301.69378671386943
+Mean absolute error:  13.576250276918339
+R2 score:  -3.32486934336855</code></pre>
+</div>
+</div>
+</section>
+<section id="pls-regression" class="slide level2">
+<h2>PLS regression</h2>
+<p>Permite hacer regresión de una variable (PLS1 con n_components=1) o varios (PLS2 con n_components &gt; 1). A diferencia de PLSCanonical, el número de componentes no está limitado por el número de atributos de salida. Se encuentra en el mínimo de <span class="math inline">\([1, min(\#atributos, \#ejemplos)]\)</span></p>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a><span class="im">from</span> sklearn.cross_decomposition <span class="im">import</span> PLSRegression</span>
+<span id="cb30-2"><a href="#cb30-2"></a></span>
+<span id="cb30-3"><a href="#cb30-3"></a><span class="co">#n_components es el número de componentes principales a utilizar</span></span>
+<span id="cb30-4"><a href="#cb30-4"></a><span class="co">#prueba a aumentar el número de componentes y observa como cambia el error</span></span>
+<span id="cb30-5"><a href="#cb30-5"></a>pls <span class="op">=</span> PLSRegression(n_components<span class="op">=</span><span class="dv">2</span>, tol<span class="op">=</span> <span class="fl">0.001</span>, max_iter<span class="op">=</span><span class="dv">5000</span>) </span>
+<span id="cb30-6"><a href="#cb30-6"></a>pls.fit(X, y)</span>
+<span id="cb30-7"><a href="#cb30-7"></a></span>
+<span id="cb30-8"><a href="#cb30-8"></a>y_pred <span class="op">=</span> pls.predict(X)</span>
+<span id="cb30-9"><a href="#cb30-9"></a></span>
+<span id="cb30-10"><a href="#cb30-10"></a><span class="bu">print</span>(<span class="st">"Mean squared error: "</span>, mean_squared_error(y, y_pred))</span>
+<span id="cb30-11"><a href="#cb30-11"></a><span class="bu">print</span>(<span class="st">"Mean absolute error: "</span>, mean_absolute_error(y, y_pred))</span>
+<span id="cb30-12"><a href="#cb30-12"></a><span class="bu">print</span>(<span class="st">"R2 score: "</span>, r2_score(y, y_pred))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mean squared error:  8.328809619946016
+Mean absolute error:  2.2654707764796984
+R2 score:  0.8806040595518779</code></pre>
+</div>
+</div>
+</section>
+<section id="ejercicios-5" class="slide level2">
+<h2>Ejercicios</h2>
+<ol type="1">
+<li>Con la experiencia de estos dos métodos, prueba a ajustar con PLSSVD los datos: https://scikit-learn.org/stable/modules/generated/sklearn.cross_decomposition.PLSSVD.html#sklearn.cross_decomposition.PLSSVD</li>
+<li>¿Cuál es el efecto del número de componentes en PLSRegression en el rendimiento? ¿Hay alguna asíntota de rendimiento?</li>
+<li>¿Qué ocurre con los coeficientes al aumentar el número de componentes?</li>
+<li>Prueba a aplicar algún tipo de estandarízación en los datos y observa las diferencias en rendimiento.</li>
+</ol>
+</section></section>
+<section>
+<section id="regresión-con-mlp-multi-layer-perceptron" class="title-slide slide level1 center">
+<h1>Regresión con MLP (Multi-layer Perceptron)</h1>
+
+</section>
+<section id="mlp-de-sklearn" class="slide level2">
+<h2>MLP de SKlearn</h2>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1"></a><span class="im">from</span> sklearn.neural_network <span class="im">import</span> MLPRegressor</span>
+<span id="cb32-2"><a href="#cb32-2"></a></span>
+<span id="cb32-3"><a href="#cb32-3"></a>mlp <span class="op">=</span> MLPRegressor(hidden_layer_sizes<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">10</span>), activation<span class="op">=</span><span class="st">'relu'</span>, solver<span class="op">=</span><span class="st">'sgd'</span>, learning_rate<span class="op">=</span><span class="st">'constant'</span>, max_iter<span class="op">=</span><span class="dv">500</span>, verbose<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb32-4"><a href="#cb32-4"></a>mlp.fit(X, y)</span>
+<span id="cb32-5"><a href="#cb32-5"></a></span>
+<span id="cb32-6"><a href="#cb32-6"></a>y_pred <span class="op">=</span> mlp.predict(X)</span>
+<span id="cb32-7"><a href="#cb32-7"></a></span>
+<span id="cb32-8"><a href="#cb32-8"></a><span class="bu">print</span>(<span class="st">"Mean squared error: "</span>, mean_squared_error(y, y_pred))</span>
+<span id="cb32-9"><a href="#cb32-9"></a><span class="bu">print</span>(<span class="st">"Mean absolute error: "</span>, mean_absolute_error(y, y_pred))</span>
+<span id="cb32-10"><a href="#cb32-10"></a><span class="bu">print</span>(<span class="st">"R2 score: "</span>, r2_score(y, y_pred))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Iteration 1, loss = 680.09453479
+Iteration 2, loss = 270.82359745
+Iteration 3, loss = 199.98164983
+Iteration 4, loss = 190.55066669
+Iteration 5, loss = 178.70264099
+Iteration 6, loss = 163.41529596
+Iteration 7, loss = 143.65324612
+Iteration 8, loss = 119.59976569
+Iteration 9, loss = 93.03300673
+Iteration 10, loss = 67.47757320
+Iteration 11, loss = 46.92496448
+Iteration 12, loss = 36.45189176
+Iteration 13, loss = 35.78870571
+Iteration 14, loss = 40.65504252
+Iteration 15, loss = 45.12825288
+Iteration 16, loss = 45.79304255
+Iteration 17, loss = 42.92700037
+Iteration 18, loss = 39.38271242
+Iteration 19, loss = 36.50136592
+Iteration 20, loss = 35.18741262
+Iteration 21, loss = 34.85291575
+Iteration 22, loss = 35.17938944
+Iteration 23, loss = 35.55177131
+Iteration 24, loss = 35.84514861
+Iteration 25, loss = 35.83443102
+Iteration 26, loss = 35.67468121
+Iteration 27, loss = 35.40266195
+Iteration 28, loss = 35.19107489
+Iteration 29, loss = 34.94287865
+Iteration 30, loss = 34.88584148
+Iteration 31, loss = 34.89394710
+Iteration 32, loss = 34.98919233
+Training loss did not improve more than tol=0.000100 for 10 consecutive epochs. Stopping.
+Mean squared error:  69.92776595830891
+Mean absolute error:  6.865490357056633
+R2 score:  -0.0024351331112046903</code></pre>
+</div>
+</div>
+</section>
+<section id="ejercicios-6" class="slide level2">
+<h2>Ejercicios</h2>
+<ol type="1">
+<li>Cambia la topología de la red (la cantidad de capas ocultas y el número de neuronas) para intentar mejorar los resultados</li>
+<li>Puedes ajustar el resto de parámetros (info en https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html) para intentar conseguir mejorar los resultados.</li>
+<li>Juega con el <strong>learning_rate</strong> frente al número de iteraciones y los resultados. Cambiar el <strong>solver</strong> también tiene un impacto importante en la velocidad de convergencia.</li>
+</ol>
+</section>
+<section id="mlp-con-keras" class="slide level2">
+<h2>MLP con Keras</h2>
+<p>Aunque en asignaturas más avanzadas se trabajará con Keras de forma más profunda, aprovechamos aquí para hacer un pequeño inciso.</p>
+<p>En Keras, la construcción de la topología de la red para obtener una MLP se hace artesanalmente, añadiendo capas de izquierda a derecha (utilizando un modelo Sequential), comenzando por la primera capa de conexión con los atributos del dataset y terminando con la última neurona de salida.</p>
+<p>Para facilitar la tarea vamos a utilizar un wrapper que incorpora Sklearn para trabajar con Keras de la misma forma que hemos hecho con los algoritmos de regresión previos. Queda como tarea al alumno replicar el uso de Keras directamente mostrado en las transparencias de teoría.</p>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1"></a><span class="op">!</span>pip install scikeras</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Requirement already satisfied: scikeras in c:\users\julian\anaconda3\lib\site-packages (0.12.0)
+Requirement already satisfied: packaging&gt;=0.21 in c:\users\julian\anaconda3\lib\site-packages (from scikeras) (23.0)
+Requirement already satisfied: scikit-learn&gt;=1.0.0 in c:\users\julian\anaconda3\lib\site-packages (from scikeras) (1.3.0)
+Requirement already satisfied: tensorflow-io-gcs-filesystem&lt;0.32,&gt;=0.23.1 in c:\users\julian\anaconda3\lib\site-packages (from scikeras) (0.31.0)
+Requirement already satisfied: numpy&gt;=1.17.3 in c:\users\julian\anaconda3\lib\site-packages (from scikit-learn&gt;=1.0.0-&gt;scikeras) (1.25.0)
+Requirement already satisfied: scipy&gt;=1.5.0 in c:\users\julian\anaconda3\lib\site-packages (from scikit-learn&gt;=1.0.0-&gt;scikeras) (1.11.1)
+Requirement already satisfied: joblib&gt;=1.1.1 in c:\users\julian\anaconda3\lib\site-packages (from scikit-learn&gt;=1.0.0-&gt;scikeras) (1.2.0)
+Requirement already satisfied: threadpoolctl&gt;=2.0.0 in c:\users\julian\anaconda3\lib\site-packages (from scikit-learn&gt;=1.0.0-&gt;scikeras) (2.2.0)</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1"></a><span class="im">from</span> tensorflow <span class="im">import</span> keras</span>
+<span id="cb36-2"><a href="#cb36-2"></a><span class="im">from</span> tensorflow.keras <span class="im">import</span> models</span>
+<span id="cb36-3"><a href="#cb36-3"></a><span class="im">from</span> tensorflow.keras.models <span class="im">import</span> Sequential</span>
+<span id="cb36-4"><a href="#cb36-4"></a><span class="im">from</span> tensorflow.keras.layers <span class="im">import</span> Dense</span>
+<span id="cb36-5"><a href="#cb36-5"></a><span class="im">from</span> scikeras.wrappers <span class="im">import</span> KerasRegressor</span>
+<span id="cb36-6"><a href="#cb36-6"></a></span>
+<span id="cb36-7"><a href="#cb36-7"></a><span class="co">#vamos a definir la topología del modelo MLP igual al ejemplo con MLPRegressor (2 capas ocultas de 10 neuronas cada una)</span></span>
+<span id="cb36-8"><a href="#cb36-8"></a><span class="kw">def</span> mlp():</span>
+<span id="cb36-9"><a href="#cb36-9"></a>    model <span class="op">=</span> Sequential()</span>
+<span id="cb36-10"><a href="#cb36-10"></a>    model.add(Dense(<span class="dv">10</span>, input_dim<span class="op">=</span><span class="bu">len</span>(X.columns), activation<span class="op">=</span><span class="st">'relu'</span>)) <span class="co">#capa de entrada con input_dim = número de atributos de nuestro conjunto de datos</span></span>
+<span id="cb36-11"><a href="#cb36-11"></a>    model.add(Dense(<span class="dv">10</span>, activation<span class="op">=</span><span class="st">'relu'</span>))</span>
+<span id="cb36-12"><a href="#cb36-12"></a>    model.add(Dense(<span class="dv">1</span>, activation<span class="op">=</span><span class="st">'linear'</span>))</span>
+<span id="cb36-13"><a href="#cb36-13"></a>    model.<span class="bu">compile</span>(loss<span class="op">=</span><span class="st">'mean_squared_error'</span>, optimizer<span class="op">=</span><span class="st">'adam'</span>, metrics<span class="op">=</span>[<span class="st">'mse'</span>]) <span class="co">#para regresión usamos mean_squared_error como función de pérdida</span></span>
+<span id="cb36-14"><a href="#cb36-14"></a>    <span class="cf">return</span> model</span>
+<span id="cb36-15"><a href="#cb36-15"></a></span>
+<span id="cb36-16"><a href="#cb36-16"></a><span class="co">""""</span></span>
+<span id="cb36-17"><a href="#cb36-17"></a><span class="co">#Alternativamente, podemos definir la topología del modelo MLP como un vector de capas directamente en lugar de usar el método add</span></span>
+<span id="cb36-18"><a href="#cb36-18"></a><span class="co">mlp = models.Sequential(</span></span>
+<span id="cb36-19"><a href="#cb36-19"></a><span class="co">    [</span></span>
+<span id="cb36-20"><a href="#cb36-20"></a><span class="co">        keras.layers.Dense(10, activation="relu", input_shape=len(X.columns)),</span></span>
+<span id="cb36-21"><a href="#cb36-21"></a><span class="co">        keras.layers.Dense(10, activation="relu"),</span></span>
+<span id="cb36-22"><a href="#cb36-22"></a><span class="co">        keras.layers.Dense(1)</span></span>
+<span id="cb36-23"><a href="#cb36-23"></a><span class="co">    ]</span></span>
+<span id="cb36-24"><a href="#cb36-24"></a><span class="co">)</span></span>
+<span id="cb36-25"><a href="#cb36-25"></a><span class="co">mlp.compile(loss="mse", optimizer="adam", metrics=["mse"])</span></span>
+<span id="cb36-26"><a href="#cb36-26"></a></span>
+<span id="cb36-27"><a href="#cb36-27"></a><span class="co">mlp.summary()</span></span>
+<span id="cb36-28"><a href="#cb36-28"></a><span class="co">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display margin-caption" data-execution_count="113">
+<pre><code>'"\n#Alternativamente, podemos definir la topología del modelo MLP como un vector de capas directamente en lugar de usar el método add\nmlp = models.Sequential(\n    [\n        keras.layers.Dense(10, activation="relu", input_shape=len(X.columns)),\n        keras.layers.Dense(10, activation="relu"),\n        keras.layers.Dense(1)\n    ]\n)\nmlp.compile(loss="mse", optimizer="adam", metrics=["mse"])\n\nmlp.summary()\n'</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p>Ahora podemos utilizar KerasRegressor para crear el modelo y ajustarlo a los datos.</p>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1"></a>mlp_keras <span class="op">=</span> KerasRegressor(model<span class="op">=</span>mlp, epochs<span class="op">=</span><span class="dv">100</span>, batch_size<span class="op">=</span><span class="dv">5</span>, verbose<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb38-2"><a href="#cb38-2"></a>mlp_keras.get_params()</span>
+<span id="cb38-3"><a href="#cb38-3"></a></span>
+<span id="cb38-4"><a href="#cb38-4"></a>mlp_keras.fit(X,y) <span class="co"># vamos a entrenar usando CPU. En asignaturas posteriores veremos como entrenar usando GPU</span></span>
+<span id="cb38-5"><a href="#cb38-5"></a></span>
+<span id="cb38-6"><a href="#cb38-6"></a>y_pred <span class="op">=</span> mlp_keras.predict(X)</span>
+<span id="cb38-7"><a href="#cb38-7"></a></span>
+<span id="cb38-8"><a href="#cb38-8"></a><span class="bu">print</span>(<span class="st">"Mean squared error: "</span>, mean_squared_error(y, y_pred))</span>
+<span id="cb38-9"><a href="#cb38-9"></a><span class="bu">print</span>(<span class="st">"Mean absolute error: "</span>, mean_absolute_error(y, y_pred))</span>
+<span id="cb38-10"><a href="#cb38-10"></a><span class="bu">print</span>(<span class="st">"R2 score: "</span>, r2_score(y, y_pred))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 1/100
+ 1/51 [..............................] - ETA: 26s - loss: 1309.1379 - mse: 1309.137937/51 [====================&gt;.........] - ETA: 0s - loss: 220.2865 - mse: 220.2865   51/51 [==============================] - 1s 1ms/step - loss: 179.0099 - mse: 179.0099
+Epoch 2/100
+ 1/51 [..............................] - ETA: 0s - loss: 99.2110 - mse: 99.211037/51 [====================&gt;.........] - ETA: 0s - loss: 59.1761 - mse: 59.176151/51 [==============================] - 0s 1ms/step - loss: 55.5101 - mse: 55.5101
+Epoch 3/100
+ 1/51 [..............................] - ETA: 0s - loss: 30.1105 - mse: 30.110537/51 [====================&gt;.........] - ETA: 0s - loss: 56.7033 - mse: 56.703351/51 [==============================] - 0s 1ms/step - loss: 56.0928 - mse: 56.0928
+Epoch 4/100
+ 1/51 [..............................] - ETA: 0s - loss: 51.9044 - mse: 51.904437/51 [====================&gt;.........] - ETA: 0s - loss: 59.3179 - mse: 59.317951/51 [==============================] - 0s 1ms/step - loss: 54.6915 - mse: 54.6915
+Epoch 5/100
+ 1/51 [..............................] - ETA: 0s - loss: 48.9052 - mse: 48.905236/51 [====================&gt;.........] - ETA: 0s - loss: 57.5474 - mse: 57.547451/51 [==============================] - 0s 1ms/step - loss: 55.4275 - mse: 55.4275
+Epoch 6/100
+ 1/51 [..............................] - ETA: 0s - loss: 56.0547 - mse: 56.054737/51 [====================&gt;.........] - ETA: 0s - loss: 55.4456 - mse: 55.445651/51 [==============================] - 0s 1ms/step - loss: 53.7737 - mse: 53.7737
+Epoch 7/100
+ 1/51 [..............................] - ETA: 0s - loss: 35.0622 - mse: 35.062235/51 [===================&gt;..........] - ETA: 0s - loss: 59.5917 - mse: 59.591751/51 [==============================] - 0s 1ms/step - loss: 54.0983 - mse: 54.0983
+Epoch 8/100
+ 1/51 [..............................] - ETA: 0s - loss: 48.0974 - mse: 48.097436/51 [====================&gt;.........] - ETA: 0s - loss: 55.6815 - mse: 55.681551/51 [==============================] - 0s 1ms/step - loss: 56.4350 - mse: 56.4350
+Epoch 9/100
+ 1/51 [..............................] - ETA: 0s - loss: 53.2136 - mse: 53.213637/51 [====================&gt;.........] - ETA: 0s - loss: 56.0340 - mse: 56.034051/51 [==============================] - 0s 1ms/step - loss: 54.1072 - mse: 54.1072
+Epoch 10/100
+ 1/51 [..............................] - ETA: 0s - loss: 85.2696 - mse: 85.269636/51 [====================&gt;.........] - ETA: 0s - loss: 51.5899 - mse: 51.589951/51 [==============================] - 0s 1ms/step - loss: 52.4575 - mse: 52.4575
+Epoch 11/100
+ 1/51 [..............................] - ETA: 0s - loss: 33.6684 - mse: 33.668436/51 [====================&gt;.........] - ETA: 0s - loss: 51.0122 - mse: 51.012251/51 [==============================] - 0s 1ms/step - loss: 52.8599 - mse: 52.8599
+Epoch 12/100
+ 1/51 [..............................] - ETA: 0s - loss: 80.3002 - mse: 80.300236/51 [====================&gt;.........] - ETA: 0s - loss: 47.1409 - mse: 47.140951/51 [==============================] - 0s 1ms/step - loss: 51.2983 - mse: 51.2983
+Epoch 13/100
+ 1/51 [..............................] - ETA: 0s - loss: 31.6962 - mse: 31.696236/51 [====================&gt;.........] - ETA: 0s - loss: 50.8519 - mse: 50.851951/51 [==============================] - 0s 1ms/step - loss: 50.9604 - mse: 50.9604
+Epoch 14/100
+ 1/51 [..............................] - ETA: 0s - loss: 73.0120 - mse: 73.012037/51 [====================&gt;.........] - ETA: 0s - loss: 50.8472 - mse: 50.847251/51 [==============================] - 0s 1ms/step - loss: 50.4902 - mse: 50.4902
+Epoch 15/100
+ 1/51 [..............................] - ETA: 0s - loss: 17.9465 - mse: 17.946535/51 [===================&gt;..........] - ETA: 0s - loss: 48.7956 - mse: 48.795651/51 [==============================] - 0s 1ms/step - loss: 50.2369 - mse: 50.2369
+Epoch 16/100
+ 1/51 [..............................] - ETA: 0s - loss: 97.4200 - mse: 97.420036/51 [====================&gt;.........] - ETA: 0s - loss: 49.3865 - mse: 49.386551/51 [==============================] - 0s 1ms/step - loss: 50.7072 - mse: 50.7072
+Epoch 17/100
+ 1/51 [..............................] - ETA: 0s - loss: 65.9262 - mse: 65.926236/51 [====================&gt;.........] - ETA: 0s - loss: 45.7054 - mse: 45.705451/51 [==============================] - 0s 1ms/step - loss: 49.1457 - mse: 49.1457
+Epoch 18/100
+ 1/51 [..............................] - ETA: 0s - loss: 108.0997 - mse: 108.099736/51 [====================&gt;.........] - ETA: 0s - loss: 49.3108 - mse: 49.3108  51/51 [==============================] - 0s 1ms/step - loss: 48.9111 - mse: 48.9111
+Epoch 19/100
+ 1/51 [..............................] - ETA: 0s - loss: 59.9840 - mse: 59.984037/51 [====================&gt;.........] - ETA: 0s - loss: 45.2373 - mse: 45.237351/51 [==============================] - 0s 1ms/step - loss: 47.4935 - mse: 47.4935
+Epoch 20/100
+ 1/51 [..............................] - ETA: 0s - loss: 120.6511 - mse: 120.651136/51 [====================&gt;.........] - ETA: 0s - loss: 51.5660 - mse: 51.5660  51/51 [==============================] - 0s 1ms/step - loss: 47.4819 - mse: 47.4819
+Epoch 21/100
+ 1/51 [..............................] - ETA: 0s - loss: 44.8252 - mse: 44.825237/51 [====================&gt;.........] - ETA: 0s - loss: 51.2542 - mse: 51.254251/51 [==============================] - 0s 1ms/step - loss: 47.9812 - mse: 47.9812
+Epoch 22/100
+ 1/51 [..............................] - ETA: 0s - loss: 53.6256 - mse: 53.625638/51 [=====================&gt;........] - ETA: 0s - loss: 51.1119 - mse: 51.111951/51 [==============================] - 0s 1ms/step - loss: 48.9111 - mse: 48.9111
+Epoch 23/100
+ 1/51 [..............................] - ETA: 0s - loss: 24.9072 - mse: 24.907236/51 [====================&gt;.........] - ETA: 0s - loss: 48.0074 - mse: 48.007451/51 [==============================] - 0s 1ms/step - loss: 48.7393 - mse: 48.7393
+Epoch 24/100
+ 1/51 [..............................] - ETA: 0s - loss: 41.5761 - mse: 41.576137/51 [====================&gt;.........] - ETA: 0s - loss: 48.6819 - mse: 48.681951/51 [==============================] - 0s 1ms/step - loss: 46.0299 - mse: 46.0299
+Epoch 25/100
+ 1/51 [..............................] - ETA: 0s - loss: 46.3812 - mse: 46.381238/51 [=====================&gt;........] - ETA: 0s - loss: 47.1485 - mse: 47.148551/51 [==============================] - 0s 1ms/step - loss: 46.6955 - mse: 46.6955
+Epoch 26/100
+ 1/51 [..............................] - ETA: 0s - loss: 54.8724 - mse: 54.872437/51 [====================&gt;.........] - ETA: 0s - loss: 49.9591 - mse: 49.959151/51 [==============================] - 0s 1ms/step - loss: 45.5007 - mse: 45.5007
+Epoch 27/100
+ 1/51 [..............................] - ETA: 0s - loss: 44.4564 - mse: 44.456437/51 [====================&gt;.........] - ETA: 0s - loss: 44.1259 - mse: 44.125951/51 [==============================] - 0s 1ms/step - loss: 45.3787 - mse: 45.3787
+Epoch 28/100
+ 1/51 [..............................] - ETA: 0s - loss: 86.3028 - mse: 86.302837/51 [====================&gt;.........] - ETA: 0s - loss: 47.9575 - mse: 47.957551/51 [==============================] - 0s 1ms/step - loss: 45.1530 - mse: 45.1530
+Epoch 29/100
+ 1/51 [..............................] - ETA: 0s - loss: 45.6273 - mse: 45.627338/51 [=====================&gt;........] - ETA: 0s - loss: 47.2994 - mse: 47.299451/51 [==============================] - 0s 1ms/step - loss: 47.2695 - mse: 47.2695
+Epoch 30/100
+ 1/51 [..............................] - ETA: 0s - loss: 32.7109 - mse: 32.710937/51 [====================&gt;.........] - ETA: 0s - loss: 45.9595 - mse: 45.959551/51 [==============================] - 0s 1ms/step - loss: 45.0651 - mse: 45.0651
+Epoch 31/100
+ 1/51 [..............................] - ETA: 0s - loss: 48.1847 - mse: 48.184738/51 [=====================&gt;........] - ETA: 0s - loss: 41.9808 - mse: 41.980851/51 [==============================] - 0s 1ms/step - loss: 43.5386 - mse: 43.5386
+Epoch 32/100
+ 1/51 [..............................] - ETA: 0s - loss: 128.5881 - mse: 128.588137/51 [====================&gt;.........] - ETA: 0s - loss: 48.6964 - mse: 48.6964  51/51 [==============================] - 0s 1ms/step - loss: 43.9273 - mse: 43.9273
+Epoch 33/100
+ 1/51 [..............................] - ETA: 0s - loss: 43.7595 - mse: 43.759537/51 [====================&gt;.........] - ETA: 0s - loss: 45.7430 - mse: 45.743051/51 [==============================] - 0s 1ms/step - loss: 43.2804 - mse: 43.2804
+Epoch 34/100
+ 1/51 [..............................] - ETA: 0s - loss: 76.3367 - mse: 76.336737/51 [====================&gt;.........] - ETA: 0s - loss: 44.4986 - mse: 44.498651/51 [==============================] - 0s 1ms/step - loss: 42.9867 - mse: 42.9867
+Epoch 35/100
+ 1/51 [..............................] - ETA: 0s - loss: 30.6490 - mse: 30.649037/51 [====================&gt;.........] - ETA: 0s - loss: 45.0600 - mse: 45.060051/51 [==============================] - 0s 1ms/step - loss: 45.0644 - mse: 45.0644
+Epoch 36/100
+ 1/51 [..............................] - ETA: 0s - loss: 110.6862 - mse: 110.686237/51 [====================&gt;.........] - ETA: 0s - loss: 45.6516 - mse: 45.6516  51/51 [==============================] - 0s 1ms/step - loss: 42.6928 - mse: 42.6928
+Epoch 37/100
+ 1/51 [..............................] - ETA: 0s - loss: 27.4221 - mse: 27.422137/51 [====================&gt;.........] - ETA: 0s - loss: 42.8757 - mse: 42.875751/51 [==============================] - 0s 1ms/step - loss: 42.1759 - mse: 42.1759
+Epoch 38/100
+ 1/51 [..............................] - ETA: 0s - loss: 34.3452 - mse: 34.345236/51 [====================&gt;.........] - ETA: 0s - loss: 41.4319 - mse: 41.431951/51 [==============================] - 0s 1ms/step - loss: 41.0441 - mse: 41.0441
+Epoch 39/100
+ 1/51 [..............................] - ETA: 0s - loss: 16.4945 - mse: 16.494537/51 [====================&gt;.........] - ETA: 0s - loss: 37.8593 - mse: 37.859351/51 [==============================] - 0s 1ms/step - loss: 40.3582 - mse: 40.3582
+Epoch 40/100
+ 1/51 [..............................] - ETA: 0s - loss: 46.8242 - mse: 46.824236/51 [====================&gt;.........] - ETA: 0s - loss: 41.2116 - mse: 41.211651/51 [==============================] - 0s 1ms/step - loss: 40.7210 - mse: 40.7210
+Epoch 41/100
+ 1/51 [..............................] - ETA: 0s - loss: 53.8210 - mse: 53.821036/51 [====================&gt;.........] - ETA: 0s - loss: 39.3765 - mse: 39.376551/51 [==============================] - 0s 1ms/step - loss: 39.5436 - mse: 39.5436
+Epoch 42/100
+ 1/51 [..............................] - ETA: 0s - loss: 66.6302 - mse: 66.630237/51 [====================&gt;.........] - ETA: 0s - loss: 46.1138 - mse: 46.113851/51 [==============================] - 0s 1ms/step - loss: 42.7282 - mse: 42.7282
+Epoch 43/100
+ 1/51 [..............................] - ETA: 0s - loss: 78.3974 - mse: 78.397437/51 [====================&gt;.........] - ETA: 0s - loss: 45.0397 - mse: 45.039751/51 [==============================] - 0s 1ms/step - loss: 43.0257 - mse: 43.0257
+Epoch 44/100
+ 1/51 [..............................] - ETA: 0s - loss: 84.0047 - mse: 84.004737/51 [====================&gt;.........] - ETA: 0s - loss: 44.2058 - mse: 44.205851/51 [==============================] - 0s 1ms/step - loss: 45.2006 - mse: 45.2006
+Epoch 45/100
+ 1/51 [..............................] - ETA: 0s - loss: 24.8357 - mse: 24.835735/51 [===================&gt;..........] - ETA: 0s - loss: 36.1874 - mse: 36.187451/51 [==============================] - 0s 2ms/step - loss: 39.9726 - mse: 39.9726
+Epoch 46/100
+ 1/51 [..............................] - ETA: 0s - loss: 27.8196 - mse: 27.819635/51 [===================&gt;..........] - ETA: 0s - loss: 38.9152 - mse: 38.915251/51 [==============================] - 0s 2ms/step - loss: 39.9091 - mse: 39.9091
+Epoch 47/100
+ 1/51 [..............................] - ETA: 0s - loss: 99.0684 - mse: 99.068433/51 [==================&gt;...........] - ETA: 0s - loss: 38.5169 - mse: 38.516951/51 [==============================] - 0s 2ms/step - loss: 37.8684 - mse: 37.8684
+Epoch 48/100
+ 1/51 [..............................] - ETA: 0s - loss: 11.6834 - mse: 11.683437/51 [====================&gt;.........] - ETA: 0s - loss: 38.3208 - mse: 38.320851/51 [==============================] - 0s 1ms/step - loss: 37.9404 - mse: 37.9404
+Epoch 49/100
+ 1/51 [..............................] - ETA: 0s - loss: 55.6166 - mse: 55.616636/51 [====================&gt;.........] - ETA: 0s - loss: 37.1629 - mse: 37.162951/51 [==============================] - 0s 1ms/step - loss: 38.2852 - mse: 38.2852
+Epoch 50/100
+ 1/51 [..............................] - ETA: 0s - loss: 27.4394 - mse: 27.439437/51 [====================&gt;.........] - ETA: 0s - loss: 38.7568 - mse: 38.756851/51 [==============================] - 0s 1ms/step - loss: 37.0095 - mse: 37.0095
+Epoch 51/100
+ 1/51 [..............................] - ETA: 0s - loss: 43.0098 - mse: 43.009837/51 [====================&gt;.........] - ETA: 0s - loss: 37.2537 - mse: 37.253751/51 [==============================] - 0s 1ms/step - loss: 38.7171 - mse: 38.7171
+Epoch 52/100
+ 1/51 [..............................] - ETA: 0s - loss: 12.4107 - mse: 12.410737/51 [====================&gt;.........] - ETA: 0s - loss: 36.9708 - mse: 36.970851/51 [==============================] - 0s 1ms/step - loss: 37.8761 - mse: 37.8761
+Epoch 53/100
+ 1/51 [..............................] - ETA: 0s - loss: 36.1695 - mse: 36.169537/51 [====================&gt;.........] - ETA: 0s - loss: 39.3808 - mse: 39.380851/51 [==============================] - 0s 1ms/step - loss: 36.4695 - mse: 36.4695
+Epoch 54/100
+ 1/51 [..............................] - ETA: 0s - loss: 53.7220 - mse: 53.722037/51 [====================&gt;.........] - ETA: 0s - loss: 37.8429 - mse: 37.842951/51 [==============================] - 0s 1ms/step - loss: 39.5566 - mse: 39.5566
+Epoch 55/100
+ 1/51 [..............................] - ETA: 0s - loss: 27.6062 - mse: 27.606236/51 [====================&gt;.........] - ETA: 0s - loss: 42.6505 - mse: 42.650551/51 [==============================] - 0s 1ms/step - loss: 40.7963 - mse: 40.7963
+Epoch 56/100
+ 1/51 [..............................] - ETA: 0s - loss: 34.6198 - mse: 34.619835/51 [===================&gt;..........] - ETA: 0s - loss: 34.6043 - mse: 34.604351/51 [==============================] - 0s 2ms/step - loss: 36.3886 - mse: 36.3886
+Epoch 57/100
+ 1/51 [..............................] - ETA: 0s - loss: 31.0583 - mse: 31.058335/51 [===================&gt;..........] - ETA: 0s - loss: 38.6926 - mse: 38.692651/51 [==============================] - 0s 2ms/step - loss: 37.0472 - mse: 37.0472
+Epoch 58/100
+ 1/51 [..............................] - ETA: 0s - loss: 18.3292 - mse: 18.329235/51 [===================&gt;..........] - ETA: 0s - loss: 35.7908 - mse: 35.790851/51 [==============================] - 0s 1ms/step - loss: 36.1307 - mse: 36.1307
+Epoch 59/100
+ 1/51 [..............................] - ETA: 0s - loss: 49.3535 - mse: 49.353537/51 [====================&gt;.........] - ETA: 0s - loss: 37.2291 - mse: 37.229151/51 [==============================] - 0s 1ms/step - loss: 36.8243 - mse: 36.8243
+Epoch 60/100
+ 1/51 [..............................] - ETA: 0s - loss: 43.3991 - mse: 43.399137/51 [====================&gt;.........] - ETA: 0s - loss: 35.2935 - mse: 35.293551/51 [==============================] - 0s 1ms/step - loss: 34.9256 - mse: 34.9256
+Epoch 61/100
+ 1/51 [..............................] - ETA: 0s - loss: 39.7549 - mse: 39.754937/51 [====================&gt;.........] - ETA: 0s - loss: 33.9850 - mse: 33.985051/51 [==============================] - 0s 1ms/step - loss: 35.2959 - mse: 35.2959
+Epoch 62/100
+ 1/51 [..............................] - ETA: 0s - loss: 68.0793 - mse: 68.079337/51 [====================&gt;.........] - ETA: 0s - loss: 36.3473 - mse: 36.347351/51 [==============================] - 0s 1ms/step - loss: 36.5366 - mse: 36.5366
+Epoch 63/100
+ 1/51 [..............................] - ETA: 0s - loss: 52.4018 - mse: 52.401838/51 [=====================&gt;........] - ETA: 0s - loss: 34.0103 - mse: 34.010351/51 [==============================] - 0s 1ms/step - loss: 34.5497 - mse: 34.5497
+Epoch 64/100
+ 1/51 [..............................] - ETA: 0s - loss: 55.8768 - mse: 55.876837/51 [====================&gt;.........] - ETA: 0s - loss: 35.0278 - mse: 35.027851/51 [==============================] - 0s 1ms/step - loss: 34.3557 - mse: 34.3557
+Epoch 65/100
+ 1/51 [..............................] - ETA: 0s - loss: 6.7030 - mse: 6.703036/51 [====================&gt;.........] - ETA: 0s - loss: 39.3234 - mse: 39.323451/51 [==============================] - 0s 1ms/step - loss: 35.9406 - mse: 35.9406
+Epoch 66/100
+ 1/51 [..............................] - ETA: 0s - loss: 27.3839 - mse: 27.383935/51 [===================&gt;..........] - ETA: 0s - loss: 33.4787 - mse: 33.478751/51 [==============================] - 0s 2ms/step - loss: 34.1227 - mse: 34.1227
+Epoch 67/100
+ 1/51 [..............................] - ETA: 0s - loss: 17.4159 - mse: 17.415936/51 [====================&gt;.........] - ETA: 0s - loss: 34.7034 - mse: 34.703451/51 [==============================] - 0s 2ms/step - loss: 34.6792 - mse: 34.6792
+Epoch 68/100
+ 1/51 [..............................] - ETA: 0s - loss: 73.8951 - mse: 73.895136/51 [====================&gt;.........] - ETA: 0s - loss: 36.5834 - mse: 36.583451/51 [==============================] - 0s 1ms/step - loss: 39.5403 - mse: 39.5403
+Epoch 69/100
+ 1/51 [..............................] - ETA: 0s - loss: 64.8880 - mse: 64.888037/51 [====================&gt;.........] - ETA: 0s - loss: 34.3555 - mse: 34.355551/51 [==============================] - 0s 1ms/step - loss: 34.6195 - mse: 34.6195
+Epoch 70/100
+ 1/51 [..............................] - ETA: 0s - loss: 16.5716 - mse: 16.571637/51 [====================&gt;.........] - ETA: 0s - loss: 34.2319 - mse: 34.231951/51 [==============================] - 0s 1ms/step - loss: 33.6362 - mse: 33.6362
+Epoch 71/100
+ 1/51 [..............................] - ETA: 0s - loss: 86.1879 - mse: 86.187937/51 [====================&gt;.........] - ETA: 0s - loss: 37.6429 - mse: 37.642951/51 [==============================] - 0s 1ms/step - loss: 35.4447 - mse: 35.4447
+Epoch 72/100
+ 1/51 [..............................] - ETA: 0s - loss: 31.5050 - mse: 31.505037/51 [====================&gt;.........] - ETA: 0s - loss: 32.5444 - mse: 32.544451/51 [==============================] - 0s 1ms/step - loss: 33.7674 - mse: 33.7674
+Epoch 73/100
+ 1/51 [..............................] - ETA: 0s - loss: 23.0562 - mse: 23.056237/51 [====================&gt;.........] - ETA: 0s - loss: 33.4882 - mse: 33.488251/51 [==============================] - 0s 1ms/step - loss: 34.0611 - mse: 34.0611
+Epoch 74/100
+ 1/51 [..............................] - ETA: 0s - loss: 22.3486 - mse: 22.348637/51 [====================&gt;.........] - ETA: 0s - loss: 29.4431 - mse: 29.443151/51 [==============================] - 0s 1ms/step - loss: 32.9118 - mse: 32.9118
+Epoch 75/100
+ 1/51 [..............................] - ETA: 0s - loss: 45.7707 - mse: 45.770737/51 [====================&gt;.........] - ETA: 0s - loss: 32.8715 - mse: 32.871551/51 [==============================] - 0s 1ms/step - loss: 34.5998 - mse: 34.5998
+Epoch 76/100
+ 1/51 [..............................] - ETA: 0s - loss: 37.6581 - mse: 37.658137/51 [====================&gt;.........] - ETA: 0s - loss: 36.0868 - mse: 36.086851/51 [==============================] - 0s 1ms/step - loss: 33.3038 - mse: 33.3038
+Epoch 77/100
+ 1/51 [..............................] - ETA: 0s - loss: 84.5923 - mse: 84.592337/51 [====================&gt;.........] - ETA: 0s - loss: 31.8698 - mse: 31.869851/51 [==============================] - 0s 1ms/step - loss: 32.4307 - mse: 32.4307
+Epoch 78/100
+ 1/51 [..............................] - ETA: 0s - loss: 80.2688 - mse: 80.268837/51 [====================&gt;.........] - ETA: 0s - loss: 31.8035 - mse: 31.803551/51 [==============================] - 0s 1ms/step - loss: 32.8342 - mse: 32.8342
+Epoch 79/100
+ 1/51 [..............................] - ETA: 0s - loss: 39.8762 - mse: 39.876237/51 [====================&gt;.........] - ETA: 0s - loss: 36.4026 - mse: 36.402651/51 [==============================] - 0s 1ms/step - loss: 33.3377 - mse: 33.3377
+Epoch 80/100
+ 1/51 [..............................] - ETA: 0s - loss: 21.8349 - mse: 21.834937/51 [====================&gt;.........] - ETA: 0s - loss: 31.4490 - mse: 31.449051/51 [==============================] - 0s 1ms/step - loss: 32.9954 - mse: 32.9954
+Epoch 81/100
+ 1/51 [..............................] - ETA: 0s - loss: 23.2359 - mse: 23.235937/51 [====================&gt;.........] - ETA: 0s - loss: 32.5926 - mse: 32.592651/51 [==============================] - 0s 1ms/step - loss: 32.2085 - mse: 32.2085
+Epoch 82/100
+ 1/51 [..............................] - ETA: 0s - loss: 34.6763 - mse: 34.676337/51 [====================&gt;.........] - ETA: 0s - loss: 38.6297 - mse: 38.629751/51 [==============================] - 0s 1ms/step - loss: 35.4533 - mse: 35.4533
+Epoch 83/100
+ 1/51 [..............................] - ETA: 0s - loss: 10.2357 - mse: 10.235737/51 [====================&gt;.........] - ETA: 0s - loss: 30.5339 - mse: 30.533951/51 [==============================] - 0s 1ms/step - loss: 32.0074 - mse: 32.0074
+Epoch 84/100
+ 1/51 [..............................] - ETA: 0s - loss: 18.0448 - mse: 18.044837/51 [====================&gt;.........] - ETA: 0s - loss: 34.6691 - mse: 34.669151/51 [==============================] - 0s 1ms/step - loss: 33.7487 - mse: 33.7487
+Epoch 85/100
+ 1/51 [..............................] - ETA: 0s - loss: 15.6830 - mse: 15.683037/51 [====================&gt;.........] - ETA: 0s - loss: 30.2259 - mse: 30.225951/51 [==============================] - 0s 1ms/step - loss: 32.0468 - mse: 32.0468
+Epoch 86/100
+ 1/51 [..............................] - ETA: 0s - loss: 28.5837 - mse: 28.583737/51 [====================&gt;.........] - ETA: 0s - loss: 34.5815 - mse: 34.581551/51 [==============================] - 0s 1ms/step - loss: 33.1852 - mse: 33.1852
+Epoch 87/100
+ 1/51 [..............................] - ETA: 0s - loss: 21.6508 - mse: 21.650837/51 [====================&gt;.........] - ETA: 0s - loss: 31.9993 - mse: 31.999351/51 [==============================] - 0s 1ms/step - loss: 33.2377 - mse: 33.2377
+Epoch 88/100
+ 1/51 [..............................] - ETA: 0s - loss: 23.7257 - mse: 23.725736/51 [====================&gt;.........] - ETA: 0s - loss: 30.0788 - mse: 30.078851/51 [==============================] - 0s 1ms/step - loss: 31.9222 - mse: 31.9222
+Epoch 89/100
+ 1/51 [..............................] - ETA: 0s - loss: 56.9326 - mse: 56.932637/51 [====================&gt;.........] - ETA: 0s - loss: 35.6705 - mse: 35.670551/51 [==============================] - 0s 1ms/step - loss: 32.1725 - mse: 32.1725
+Epoch 90/100
+ 1/51 [..............................] - ETA: 0s - loss: 28.0181 - mse: 28.018137/51 [====================&gt;.........] - ETA: 0s - loss: 33.2358 - mse: 33.235851/51 [==============================] - 0s 1ms/step - loss: 33.5652 - mse: 33.5652
+Epoch 91/100
+ 1/51 [..............................] - ETA: 0s - loss: 27.9932 - mse: 27.993237/51 [====================&gt;.........] - ETA: 0s - loss: 33.2225 - mse: 33.222551/51 [==============================] - 0s 1ms/step - loss: 31.6715 - mse: 31.6715
+Epoch 92/100
+ 1/51 [..............................] - ETA: 0s - loss: 30.1459 - mse: 30.145938/51 [=====================&gt;........] - ETA: 0s - loss: 30.2909 - mse: 30.290951/51 [==============================] - 0s 1ms/step - loss: 31.3179 - mse: 31.3179
+Epoch 93/100
+ 1/51 [..............................] - ETA: 0s - loss: 14.8395 - mse: 14.839537/51 [====================&gt;.........] - ETA: 0s - loss: 32.7263 - mse: 32.726351/51 [==============================] - 0s 1ms/step - loss: 32.6632 - mse: 32.6632
+Epoch 94/100
+ 1/51 [..............................] - ETA: 0s - loss: 40.7387 - mse: 40.738737/51 [====================&gt;.........] - ETA: 0s - loss: 26.1508 - mse: 26.150851/51 [==============================] - 0s 1ms/step - loss: 30.9551 - mse: 30.9551
+Epoch 95/100
+ 1/51 [..............................] - ETA: 0s - loss: 28.9884 - mse: 28.988437/51 [====================&gt;.........] - ETA: 0s - loss: 30.0676 - mse: 30.067651/51 [==============================] - 0s 1ms/step - loss: 30.2357 - mse: 30.2357
+Epoch 96/100
+ 1/51 [..............................] - ETA: 0s - loss: 16.1941 - mse: 16.194137/51 [====================&gt;.........] - ETA: 0s - loss: 27.4441 - mse: 27.444151/51 [==============================] - 0s 1ms/step - loss: 32.4896 - mse: 32.4896
+Epoch 97/100
+ 1/51 [..............................] - ETA: 0s - loss: 43.9497 - mse: 43.949737/51 [====================&gt;.........] - ETA: 0s - loss: 33.0867 - mse: 33.086751/51 [==============================] - 0s 1ms/step - loss: 33.5742 - mse: 33.5742
+Epoch 98/100
+ 1/51 [..............................] - ETA: 0s - loss: 19.4955 - mse: 19.495537/51 [====================&gt;.........] - ETA: 0s - loss: 32.5955 - mse: 32.595551/51 [==============================] - 0s 1ms/step - loss: 32.1410 - mse: 32.1410
+Epoch 99/100
+ 1/51 [..............................] - ETA: 0s - loss: 26.5449 - mse: 26.544937/51 [====================&gt;.........] - ETA: 0s - loss: 29.7484 - mse: 29.748451/51 [==============================] - 0s 1ms/step - loss: 32.1573 - mse: 32.1573
+Epoch 100/100
+ 1/51 [..............................] - ETA: 0s - loss: 31.5927 - mse: 31.592737/51 [====================&gt;.........] - ETA: 0s - loss: 32.3581 - mse: 32.358151/51 [==============================] - 0s 1ms/step - loss: 32.3402 - mse: 32.3402
+ 1/51 [..............................] - ETA: 4s49/51 [===========================&gt;..] - ETA: 0s51/51 [==============================] - 0s 1ms/step
+Mean squared error:  29.782381421544233
+Mean absolute error:  4.4182997279697
+R2 score:  0.5730607852898673</code></pre>
+</div>
+</div>
+</section></section>
+<section id="consideraciones-generales" class="title-slide slide level1 center">
+<h1>Consideraciones generales</h1>
+<p>Dese cuenta que no hemos aplicado ningún tipo de validación en los modelos. Estamos ajustando y evaluando el rendimiento en el conjunto completo, lo que no es nada recomendable. Queda en manos del estudiante aplicar los conocimientos de particionamiento y validación a los diferentes modelos aquí mostrados.</p>
+<p>De igual forma, no se ha realizado normalización en la mayoría de casos, lo que es muy recomendable (sobre todo trabajando con SGD). En la sesión de preprocesamiento se tratará con mayor profundidad, pero es necesario dejar constancia de este hecho.</p>
+<p>Finalmente, queremos indicar al estudiante que el ajuste de parámetros manual no es lo más óptimo hoy día. Más adelante estudiaremos como ajustar los parámetros de forma automatizada.</p>
+<div class="footer footer-default">
+
+</div>
+</section>
+    </div>
+  </div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="P1_regresion_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="P1_regresion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="P1_regresion_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="P1_regresion_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="P1_regresion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="P1_regresion_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="P1_regresion_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="P1_regresion_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="P1_regresion_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="P1_regresion_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'smaller': true,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': true,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const isCodeAnnotation = (el) => {
+        for (const clz of el.classList) {
+          if (clz.startsWith('code-annotation-')) {                     
+            return true;
+          }
+        }
+        return false;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button', {
+        text: function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+      });
+      clipboard.on('success', function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copied!");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copied!");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      });
+      function tippyHover(el, contentFn) {
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        };
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          return note.innerHTML;
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</body></html>

@@ -1,0 +1,399 @@
+---
+title: |
+  <center>A Python Jupyter Notebook</center>  
+  <center>Converted to RMarkdown</center>
+  <br />
+author: |
+  <p style="float: right">Moisés Tellez Francisco</p>
+  <br />
+date: |
+  <p style="float: right">November 15th, 2023</p>
+  <br />
+output:
+  html_document:
+    highlight: textmate
+    theme: flatly
+    number_sections: yes
+    toc: yes
+    toc_float:
+      collapse: yes
+      smooth_scroll: yes
+---
+# Trabajo Evaluación Continua Regresión
+
+Carga de los datos
+
+```{R}
+xtra <- read.csv("Data/california.dat", comment.char="@", header = FALSE)
+#head(xtra)
+#Asignación manual
+names(xtra) <- c("Longitude", "Latitude", "HousingMedianAge",
+"TotalRooms", "TotalBedrooms", "Population", "Households",
+"MedianIncome", "MedianHouseValue")
+#Asignación automática, facilita el acceso a los campos
+#n <- length(names(xtra)) - 1
+#names(xtra)[1:n] <- paste ("X", 1:n, sep="")
+#names(xtra)[n+1] <- "Y"
+```
+
+
+
+```{R}
+xtra    
+```
+
+
+
+Usamos los paquetes necesarios
+
+```{R}
+require(ISLR)
+require(MASS)
+```
+
+
+
+Visualizamos la relación entre una variable y la variable objetivo
+
+```{R}
+plot(MedianHouseValue~MedianIncome,xtra)
+```
+
+
+
+Haciendolo para todas observamos que no parece que haya una relacion lineal evidente
+
+```{R}
+temp <- xtra
+plotY <- function(x, y) {
+    plot(temp[, y] ~ temp[, x],
+        xlab = paste(names(temp)[x], " X", x, sep = ""),
+        ylab = names(temp)[y]
+    )
+}
+par(mfrow = c(3, 4)) # Si margin too large => (2,3)
+x <- sapply(1:(dim(temp)[2] - 1), plotY, dim(temp)[2])
+par(mfrow = c(1, 1))
+```
+
+
+
+La unica que parece tener una relación de linealidad moderadamente visible es el MedianIncome por tanto probamos un modelo solo con esa
+
+```{R}
+fit1=lm(MedianHouseValue~MedianIncome,data=xtra)
+```
+
+
+
+```{R}
+summary(fit1)
+```
+
+
+
+Vamos a utilizar una metodologia substractiva, partimos de un modelo con todas las variables y vamos a tratar de quitar las variables que menos nos aportan
+
+```{R}
+fit2=lm(MedianHouseValue~.,data=xtra)
+summary(fit2)
+```
+
+
+
+Observamos que a priori no hay ninguna variable que no nos aporte, pero podemos probar a quitar la variable Households a ver como afecta al modelo
+
+```{R}
+fit3=lm(MedianHouseValue~.-Households,data=xtra)
+summary(fit3)
+```
+
+
+
+Al hacerlo vemos que el R cuadrado apenas se nos ha resentido, así que vamos a quedarnos con este modelo y tratar de mejorarlo introduciendo interacciones y no linealidad. Una que me parece que tiene sentido es
+la interacción entre la población y los ingresos medios.
+
+```{R}
+fit4=lm(MedianHouseValue~.-Households+I(Population*MedianIncome),data=xtra)
+summary(fit4)
+```
+
+
+
+Observamos que mejoramos el R cuadrado ajustado por encima del modelo original. Por tanto el termino nos sirve. Vamos a probar tambien a introducir no linealidad 
+
+```{R}
+fit5=lm(MedianHouseValue~.-Households+I(MedianIncome^2),data=xtra)
+summary(fit5)
+```
+
+
+
+Observamos que el modelo tambien mejora. Por tanto tiene sentido que probemos una combinación de no linealidad e interacción entre terminos
+
+```{R}
+fit6=lm(MedianHouseValue~.-Households+I(MedianIncome^2)+I(MedianIncome*Population),data=xtra)
+summary(fit6)
+```
+
+
+
+Obtenemos el mejor modelo que hemos conseguido hasta ahora. Finalmente como ultima prueba vamos a añadir otro termino que incluya no linealidad e interacción
+
+```{R}
+fit6=lm(MedianHouseValue~.-Households+I(MedianIncome^2)+I(MedianIncome*Population)+I((MedianIncome^2)*Population^(1/2)),data=xtra)
+summary(fit6)
+```
+
+
+
+Seguimos mejorando el modelo, pero ahora uno de los terminos que hemos introducido nos deja de aportar infomación. Vamos a eliminarlo por simplicidad
+
+```{R}
+fit7=lm(MedianHouseValue~.-Households+I(MedianIncome^2)+I((MedianIncome^2)*Population^(1/2)),data=xtra)
+summary(fit7)
+```
+
+
+
+Finalmente nos quedamos con este modelo. Como experimento calculamos la raiz del error cuadratico medio sobre el conjunto inicial. Idealmente haremos esto más adelante sobre un conjunto de test
+
+```{R}
+yprime <- predict(fit7,xtra)
+sqrt(sum(abs(xtra$MedianHouseValue-yprime)^2)/length(yprime))
+```
+
+
+
+Pasamos a la segunda parte del laboratorio Para ello tenemos que utilizar el paquete kknn
+
+```{R}
+require(kknn)
+```
+
+
+
+Vamos a utilizar knn para regresión. Los parametros por defecto son k=7, distancia=2 ,kernel = optimal y scale= TRUE, en este caso le estamos pasando el mismo conjunto de train para test. Esto esta mal, pero más adelante utilizaremos cross validation
+
+```{R}
+fitknn1 <- kknn(MedianHouseValue ~ ., xtra, xtra)
+```
+
+
+
+```{R}
+plot(xtra$MedianHouseValue~xtra$MedianIncome)
+points(xtra$MedianIncome,fitknn1$fitted.values,col="blue",pch=20)
+```
+
+
+
+Calculamos el error
+
+```{R}
+yprime <- fitknn1$fitted.values
+sqrt(sum((xtra$MedianHouseVale-yprime)^2)/length(yprime)) #RMSE
+```
+
+
+
+```{R}
+fitknn2 <- kknn(MedianHouseValue ~ .-Households, xtra, xtra)
+```
+
+
+
+```{R}
+yprime <- fitknn2$fitted.values
+sqrt(sum((xtra$MedianHouseVale-yprime)^2)/length(yprime)) #RMSE
+```
+
+
+
+Observamos que el error es 0 Esto se debe seguramente a un error de R, puesto que podemos observar si vemos que el resultado de calcular MedianHouseValue - lo predicho es 0, sin embargo si comprobamos elemento a elemento vemos que los vectores son diferentes. por decimales. No he sabido resolver esto.
+
+```{R}
+sum(xtra$MedianHouseVale-yprime)
+```
+
+
+
+```{R}
+xtra$MedianHouseValue
+```
+
+
+
+```{R}
+yprime
+```
+
+
+
+```{R}
+plot(xtra$MedianHouseValue~xtra$MedianIncome)
+points(xtra$MedianIncome,fitknn1$fitted.values,col="blue",pch=20)
+points(xtra$MedianIncome,fitknn2$fitted.values,col="green",pch=20)
+```
+
+
+
+## 5 fold Cross validation para regresión lineal con todas las variables
+
+```{R}
+nombre <- "Data/california"
+run_lm_fold <- function(i, x, tt = "test") {
+    file <- paste(x, "-5-", i, "tra.dat", sep="")
+    x_tra <- read.csv(file, comment.char="@", header=FALSE)
+    file <- paste(x, "-5-", i, "tst.dat", sep="")
+    x_tst <- read.csv(file, comment.char="@", header=FALSE)
+    In <- length(names(x_tra)) - 1
+    names(x_tra)[1:In] <- paste ("X", 1:In, sep="")
+    names(x_tra)[In+1] <- "Y"
+    names(x_tst)[1:In] <- paste ("X", 1:In, sep="")
+    names(x_tst)[In+1] <- "Y"
+    if (tt == "train") {
+        test <- x_tra
+    }
+    else {
+        test <- x_tst
+    }
+    fitMulti=lm(Y~.,x_tra)
+    yprime=predict(fitMulti,test)
+    sum(abs(test$Y-yprime)^2)/length(yprime) ##MSE
+}
+lmMSEtrain<-mean(sapply(1:5,run_lm_fold,nombre,"train"))
+lmMSEtest<-mean(sapply(1:5,run_lm_fold,nombre,"test"))
+```
+
+
+
+```{R}
+lmMSEtrain
+```
+
+
+
+```{R}
+lmMSEtest
+```
+
+
+
+## 5 fold Cross validation para knn con todas las variables
+
+```{R}
+nombre <- "Data/california"
+run_knn_fold <- function(i, x, tt = "test") {
+    file <- paste(x, "-5-", i, "tra.dat", sep="")
+    x_tra <- read.csv(file, comment.char="@", header=FALSE)
+    file <- paste(x, "-5-", i, "tst.dat", sep="")
+    x_tst <- read.csv(file, comment.char="@", header=FALSE)
+    In <- length(names(x_tra)) - 1
+    names(x_tra)[1:In] <- paste ("X", 1:In, sep="")
+    names(x_tra)[In+1] <- "Y"
+    names(x_tst)[1:In] <- paste ("X", 1:In, sep="")
+    names(x_tst)[In+1] <- "Y"
+    if (tt == "train") {
+        test <- x_tra
+    }
+    else {
+        test <- x_tst
+    }
+    fitMulti=kknn(Y~.,x_tra,test)
+    yprime=fitMulti$fitted.values
+    sum(abs(test$Y-yprime)^2)/length(yprime) ##MSE
+}
+knnMSEtrain<-mean(sapply(1:5,run_knn_fold,nombre,"train"))
+knnMSEtest<-mean(sapply(1:5,run_knn_fold,nombre,"test"))
+```
+
+
+
+```{R}
+knnMSEtrain
+```
+
+
+
+```{R}
+knnMSEtest
+```
+
+
+
+Podemos ver como haciendo cross Validation el error es menor usando knn para todas las variables
+
+## Comparativas generales entre algoritmos
+
+```{R}
+#leemos la tabla con los errores medios de test
+resultados <- read.csv("Data/regr_test_alumnos.csv")
+tablatst <- cbind(resultados[,2:dim(resultados)[2]])
+colnames(tablatst) <- names(resultados)[2:dim(resultados)[2]]
+rownames(tablatst) <- resultados[,1]
+
+```
+
+
+
+```{R}
+#leemos la tabla con los errores medios de entrenamiento
+resultados <- read.csv("Data/regr_train_alumnos.csv")
+tablatra <- cbind(resultados[,2:dim(resultados)[2]])
+colnames(tablatra) <- names(resultados)[2:dim(resultados)[2]]
+rownames(tablatra) <- resultados[,1]
+```
+
+
+
+```{R}
+##TABLA NORMALIZADA - lm (other) vs knn (ref) para WILCOXON
+# + 0.1 porque wilcox R falla para valores == 0 en la tabla
+
+difs <- (tablatst[,1] - tablatst[,2]) / tablatst[,1]
+wilc_1_2 <- cbind(ifelse (difs<0, abs(difs)+0.1, 0+0.1), ifelse (difs>0, 	abs(difs)+0.1, 0+0.1))
+colnames(wilc_1_2) <- c(colnames(tablatst)[1], colnames(tablatst)[2])
+head(wilc_1_2)
+```
+
+
+
+```{R}
+#Aplicaci�n del test de WILCOXON
+LMvsKNNtst <- wilcox.test(wilc_1_2[,1], wilc_1_2[,2], alternative = "two.sided", paired=TRUE)
+Rmas <- LMvsKNNtst$statistic
+pvalue <- LMvsKNNtst$p.value
+LMvsKNNtst <- wilcox.test(wilc_1_2[,2], wilc_1_2[,1], alternative = "two.sided", paired=TRUE)
+Rmenos <- LMvsKNNtst$statistic
+Rmas
+Rmenos
+pvalue
+```
+
+
+
+Observamos como segun el test de wilcoxon no existen diferencias significativas entre ellos
+
+```{R}
+#Aplicaci�n del test de Friedman
+test_friedman <- friedman.test(as.matrix(tablatst))
+test_friedman
+```
+
+
+
+Pero segun el test de friedman si existen diferencias significativas entre dos
+
+```{R}
+
+#Aplicaci�n del test post-hoc de HOLM
+tam <- dim(tablatst)
+groups <- rep(1:tam[2], each=tam[1])
+pairwise.wilcox.test(as.matrix(tablatst), groups, p.adjust = "holm", paired = TRUE)
+```
+
+
+
+Existen diferencias entre M5 y los algoritmos de KNN y Regresion lineal. Pero estos dos son equivalentes entre si
+

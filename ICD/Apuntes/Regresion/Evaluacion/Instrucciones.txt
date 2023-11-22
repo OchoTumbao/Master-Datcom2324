@@ -1,0 +1,1 @@
+El analisis se ha ejecutado en un notebook. Pero como en la evaluación especifica que el archivo sea un .R adjunto tanto el notebook como un archivo .Rmd equivalente. Los datos tienen que estar en una carpeta llamada "Data" Para ejecutar el analisis
